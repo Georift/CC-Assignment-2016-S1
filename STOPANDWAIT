@@ -1,0 +1,18 @@
+compile			= "stopandwait.c"
+winopen = true
+
+bandwidth		= 56Kbps,
+
+messagerate             = 1000ms,
+propagationdelay        = 2500ms,
+
+host perth {
+    winx=0, winy=50
+    link to sydney {
+    }
+}
+
+host sydney {
+    winx=550, winy=50
+    east east east east east of perth
+}
