@@ -36,6 +36,7 @@ typedef struct {
     size_t       len;       	/* the length of the msg field only */
     int          checksum;  	/* checksum of the whole frame */
     int          seq;       	/* only ever 0 or 1 */
+    int          packetIndex;
     CnetAddr src_addr;
     CnetAddr dest_addr;
     char     data[MAX_MESSAGE];
@@ -44,14 +45,18 @@ typedef struct {
 #define FRAME_HEADER_SIZE  (sizeof(Frame) - (sizeof(char) * MAX_MESSAGE))
 #define FRAME_SIZE(f)      (FRAME_HEADER_SIZE + f.len)
 
-#define MAX_LINKS 2
+#define MAX_LINKS 4
 
 static void datalink_down(Frame f, Framekind kind, 
                     int seqno, int link);
 
+static int packetIndex = 0;
+
+Frame lastFrame[MAX_LINKS];
+
 static  char   *lastmsg;
-//static  size_t    lastlength		= 0;
-static  CnetTimerID	lasttimer		= NULLTIMER;
+
+static CnetTimerID timer[MAX_LINKS];
 
 /*
 static  int       	ackexpected		= 0;
@@ -104,6 +109,31 @@ void printbincharpad(char c)
     putchar('\n');
 }
 
+/*
+ * select which EV_TIMER to start depending on the
+ * link.
+ */
+void startTimer(int link, CnetTime timeout)
+{
+    /* links start at 1 thus decrement it by one */
+    switch((link - 1))
+    {
+        case 0:
+            timer[0] = CNET_start_timer(EV_TIMER1, 3 * timeout, 0);
+            break;
+        case 1:
+            timer[1] = CNET_start_timer(EV_TIMER2, 3 * timeout, 0);
+            break;
+        case 2:
+            timer[2] = CNET_start_timer(EV_TIMER3, 3 * timeout, 0);
+            break;
+        case 3:
+            timer[3] = CNET_start_timer(EV_TIMER4, 3 * timeout, 0);
+            break;
+    }
+}
+
+/*
 static void printCharArray(const char *array, size_t length)
 {
     int ii;
@@ -116,6 +146,7 @@ static void printCharArray(const char *array, size_t length)
     printf("\n");
 
 }
+*/
 
 /**
  * Network and application layer for receiver
@@ -162,9 +193,9 @@ static void datalink_ready(int link, Frame f)
         case DL_ACK :
             if(f.seq == ackexpected[link]) {
                 printf("\t\t\t\tACK received, seq=%d\n", f.seq);
-                CNET_stop_timer(lasttimer);
+                CNET_stop_timer(timer[link - 1]);
                 ackexpected[link] = 1 - ackexpected[link];
-                CNET_enable_application(ALLNODES);
+                CNET_enable_application(f.src_addr);
             }
         break;
 
@@ -179,7 +210,15 @@ static void datalink_ready(int link, Frame f)
 
                 // send ACK then push up network layer
                 frameexpected[link] = 1 - frameexpected[link];
-                datalink_down(f, DL_ACK, f.seq, link);
+
+                Frame ack;
+                ack.src_addr = nodeinfo.nodenumber;
+                ack.dest_addr = f.src_addr;
+                ack.seq = f.seq;
+                ack.kind = DL_ACK;
+                ack.len = 0;
+
+                datalink_down(ack, DL_ACK, f.seq, link);
 
                 // pass up to the network layer
                 printf("DATALINK: Passing packet up to network. size:%d\n", sizeof(Frame));
@@ -207,7 +246,7 @@ static void physical_ready(CnetEvent ev, CnetTimerID timer, CnetData data)
 
     CHECK(CNET_read_physical(&link, (Frame *)&f, &len));
 
-    printf("PHYSICAL: Just received a frame...\n");
+    printf("PHYSICAL: Just received a frame... %d\n", f.packetIndex);
     printFrame(link, &f, len);
 
     datalink_ready(link, f);
@@ -243,17 +282,21 @@ static void datalink_down(Frame f, Framekind kind,
 
         case DL_DATA: {
             CnetTime	timeout;
-
             printf(" DATA transmitted, seq=%d\n", seqno);
-            printf("DEBUG: Copying %d from message into packet data\n", f.len);
 
+            /* how long should our timeout be */
             timeout = FRAME_SIZE(f)*((CnetTime)8000000 / linkinfo[link].bandwidth) +
                 linkinfo[link].propagationdelay;
 
-            lasttimer = CNET_start_timer(EV_TIMER1, 3 * timeout, 0);
+            /* store our last frame incase of timeouts */
+            lastFrame[link - 1] = f;
+
+            startTimer(link, timeout);
             break;
         }
     }
+    f.packetIndex = packetIndex;
+    packetIndex++;
 
     printf("DATALINK DOWN: frame size: %d of type: %d\n", sizeof(Frame), f.kind);
     f.checksum  = CNET_ccitt((unsigned char *)&f, sizeof(Frame));
@@ -289,26 +332,40 @@ static void application_down(CnetEvent ev, CnetTimerID timer, CnetData cdata)
 
 
     CHECK(CNET_read_application(&f.dest_addr, (char *)&f.data, &f.len));
-    CNET_disable_application(ALLNODES);
+    CNET_disable_application(f.dest_addr);
 
     printf("APPLICATION: Send msg size %d to node #%d\n", f.len, f.dest_addr);
 
-    //printCharArray((char *)&msg, msgLength); 
-
-    printCharArray(f.data, f.len);
+    //printCharArray(f.data, f.len);
     network_down(f);
 }
 
 /**
  * HELPER FUNCTIONS
  */
-static void timeouts(CnetEvent ev, CnetTimerID timer, CnetData data)
+static void timeout1(CnetEvent ev, CnetTimerID timer, CnetData data)
 {
-    printf("timeout, seq= not sure on link just yet\n");
-    //datalink_down(lastmsg, DL_DATA, lastlength, ackexpected, 1);
-    printf("Should send on datalink but need to identify links");
+    printf("timeout on link #1\n");
+    datalink_down(lastFrame[0], DL_DATA, ackexpected[0], 1);
 }
 
+static void timeout2(CnetEvent ev, CnetTimerID timer, CnetData data)
+{
+    printf("timeout on link #2\n");
+    datalink_down(lastFrame[1], DL_DATA, ackexpected[1], 2);
+}
+
+static void timeout3(CnetEvent ev, CnetTimerID timer, CnetData data)
+{
+    printf("timeout on link #3\n");
+    datalink_down(lastFrame[2], DL_DATA, ackexpected[2], 3);
+}
+
+static void timeout4(CnetEvent ev, CnetTimerID timer, CnetData data)
+{
+    printf("timeout on link #4\n");
+    datalink_down(lastFrame[3], DL_DATA, ackexpected[3], 4);
+}
 
 static void showstate(CnetEvent ev, CnetTimerID timer, CnetData data)
 {
@@ -323,15 +380,27 @@ void reboot_node(CnetEvent ev, CnetTimerID timer, CnetData data)
 
     CHECK(CNET_set_handler( EV_APPLICATIONREADY, application_down, 0));
     CHECK(CNET_set_handler( EV_PHYSICALREADY,    physical_ready, 0));
-    CHECK(CNET_set_handler( EV_TIMER1,           timeouts, 0));
+
+    CHECK(CNET_set_handler( EV_TIMER1,           timeout1, 0));
+    CHECK(CNET_set_handler( EV_TIMER2,           timeout2, 0));
+    CHECK(CNET_set_handler( EV_TIMER3,           timeout3, 0));
+    CHECK(CNET_set_handler( EV_TIMER4,           timeout4, 0));
+
     CHECK(CNET_set_handler( EV_DEBUG0,           showstate, 0));
 
     CHECK(CNET_set_debug_string( EV_DEBUG0, "State"));
 
-    if (nodeinfo.nodenumber != 1)
+    CNET_enable_application(ALLNODES);
+    /*
+    if (nodeinfo.nodenumber == 0)
     {
         CNET_enable_application(ALLNODES);
     }
+    else
+    {
+        CNET_disable_application(ALLNODES);
+    }
+    */
 }
 
 
