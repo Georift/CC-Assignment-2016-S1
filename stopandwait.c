@@ -145,16 +145,59 @@ static void datalink_ready(int link, Frame f)
         return;            /*bad checksum, ignore frame*/
     }
 
+    int ii;
+    int accepted = 0;
+
+    if (ackexpected[0] == 0)
+    {
+
+    }
+
     /* check what type of frame we have received */
     switch (f.kind) {
 
         /* we got an ACK check what frame we are on */
-        case DL_ACK :
-            /* we recieved an ACK. Check what was the next
-             * link in the buffer. */
+        case DL_ACK:
+            // we received an ACK. Check what was the next
+            // link in the buffer.
+
+            // check from our final frame looping down for
+            // the value f.seq 
+            for (ii = windowUsed[link - 1]; ii >= 0; ii--)
+            {
+                if (accepted == 0)
+                {
+                    if (window[link - 1][ii].seq == f.seq)
+                    {
+                        // we have gotten acceptance up to this point 
+
+                        // accepted now contains number of frames that
+                        // have been accepted
+                        accepted = (windowUsed[link - 1] - ii);
+                    }
+                }
+            }
+
+            // if we have received acceptance remove x number of frames
+            // from the window
+            if (accepted != 0)
+            {
+                int jj;
+                for (jj = 0; jj < (windowUsed[link - 1] - accepted); jj++)
+                {
+                    window[link - 1][jj] = window[link - 1][jj + 1];
+                }
+
+                windowUsed[link - 1] = windowUsed[link - 1] - accepted;
+            }
+            else
+            {
+                // we don't know what ACK number that is....
+            }
 
 
 
+            /*
             if(f.seq == ackexpected[link]) 
             {
                 printf("\t\t\t\tACK received, seq=%d\n", f.seq);
@@ -164,8 +207,9 @@ static void datalink_ready(int link, Frame f)
             }
             else
             {
-                /* we got the wrong ack */
+                * we got the wrong ack 
             }
+            */
         break;
 
         /* we got data check if it was the expected seq number
