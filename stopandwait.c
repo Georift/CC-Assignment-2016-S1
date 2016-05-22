@@ -90,16 +90,16 @@ void printFrame(int link, Frame *f, size_t length)
 
 
 /* Passing into the physical layer from further up.*/
-static void physical_down(int link, Frame *f, size_t length)
+static void physical_down(int link, Frame f, size_t length)
 {
     //printf("PHYSICAL: Just sent a frame...\n");
     //printFrame(link, (Frame *)&f, length);
     printf("PHYSICAL: Trying to print frame of size %d\n", length);
-    CHECK(CNET_write_physical(link, (char *)f, &length));
+    CHECK(CNET_write_physical(link, (char *)&f, &length));
 }
 
 /* input to data link layer from above */
-static void datalink_down(Packet *msg, Framekind kind, 
+static void datalink_down(Packet msg, Framekind kind, 
                     size_t length, int seqno, int link)
 {
   //printf("\t passed into data link down %d\n", link);
@@ -132,8 +132,8 @@ static void datalink_down(Packet *msg, Framekind kind,
             length = sizeof(Packet);
             printf("DEBUG: Copying %d from message into packet data\n", length);
 
-            printf("DEBUG: msg src: %d dest: %d\n", msg->src_addr, msg->dest_addr);
-            memcpy(&f.msg, (char *)msg, length);
+            printf("DEBUG: msg src: %d dest: %d\n", msg.src_addr, msg.dest_addr);
+            f.msg = msg;
             printf("DEBUG: msg src: %d dest: %d\n", f.msg.src_addr, f.msg.dest_addr);
 
             timeout = FRAME_SIZE(f)*((CnetTime)8000000 / linkinfo[link].bandwidth) +
@@ -148,13 +148,13 @@ static void datalink_down(Packet *msg, Framekind kind,
     printf("DATALINK DOWN: frame size: %d of type: %d\n", length, kind);
     f.checksum  = CNET_ccitt((unsigned char *)&f, (size_t)length);
 
-    physical_down(link, &f, length);
+    physical_down(link, f, length);
 }
 
 /** 
  * given an input message work out which link to send it two.
  */
-static void network_down(CnetAddr destAddr, size_t length, char *message)
+static void network_down(CnetAddr destAddr, size_t length, char message[MAX_MESSAGE])
 {
     // find which node to send it too.
     int linkToUse = routingTable[nodeinfo.nodenumber][destAddr];
@@ -163,11 +163,11 @@ static void network_down(CnetAddr destAddr, size_t length, char *message)
     Packet p;
     p.src_addr = nodeinfo.nodenumber;
     p.dest_addr = destAddr;
-    memcpy((char *)&p.data, (char *)&message, length);
+    memcpy(&p.data, &message, length);
 
     printf("NETWORK: send packet on link %d for node %d\n", linkToUse, destAddr);
     //printf("\tnetwork had decided to use link %d to send to %d\n", linkToUse, p.dest_addr);
-    datalink_down(&p, DL_DATA, length, nextframetosend[linkToUse], linkToUse);
+    datalink_down(p, DL_DATA, length, nextframetosend[linkToUse], linkToUse);
     nextframetosend[linkToUse] = 1 - nextframetosend[linkToUse];
 }
 
@@ -193,7 +193,7 @@ static void application_down(CnetEvent ev, CnetTimerID timer, CnetData cdata)
 {
     CnetAddr destAddr;
     char data[MAX_MESSAGE];
-    printf("DEBUG: Max size of message is %d\n", sizeof(data));
+    printf("DEBUG: Max size of message is %d\n", (sizeof(char) * MAX_MESSAGE));
     size_t msgLength = sizeof(char) * MAX_MESSAGE;
 
 
@@ -204,21 +204,21 @@ static void application_down(CnetEvent ev, CnetTimerID timer, CnetData cdata)
 
     //printCharArray((char *)&msg, msgLength); 
 
-    network_down(destAddr, msgLength, (char *)&data);
+    network_down(destAddr, msgLength, data);
 }
 
 
-static void network_ready(Packet *pkt, size_t length, int link)
+static void network_ready(Packet pkt, size_t length, int link)
 {
     printf("\twe got a packet passed to us from link %d\n", link);
 
     /* check if this is out node, or if we need to route it */
-    if (nodeinfo.nodenumber != pkt->dest_addr)
+    if (nodeinfo.nodenumber != pkt.dest_addr)
     {
         printf("this isn't our frame\n");
         printf("we are node # %d\n", nodeinfo.nodenumber);
-        printf("send to node #%d\n", pkt->dest_addr);
-        int newLink = routingTable[nodeinfo.nodenumber][pkt->dest_addr];
+        printf("send to node #%d\n", pkt.dest_addr);
+        int newLink = routingTable[nodeinfo.nodenumber][pkt.dest_addr];
         datalink_down(pkt, DL_DATA, length, nextframetosend[newLink], newLink);
     }
     else
@@ -226,29 +226,30 @@ static void network_ready(Packet *pkt, size_t length, int link)
         /* this is our frame. */
         printf("this is our frame\n");
         printf("frame of size %d about to be written to application\n", length);
-        CHECK(CNET_write_application((char *)&pkt->data, &length));
+
+        CHECK(CNET_write_application((char *)&pkt.data, &length));
     }
 
 }
 
-static void datalink_ready(int link, Frame *f, size_t len)
+static void datalink_ready(int link, Frame f, size_t len)
 {
-    int checksum = f->checksum;
+    int checksum = f.checksum;
 
     /* remove the checksum from the packet and recompute it */
-    f->checksum = 0;
-    if(CNET_ccitt((unsigned char *)f, (int)len) != checksum) {
+    f.checksum = 0;
+    if(CNET_ccitt((unsigned char *)&f, (int)len) != checksum) {
         printf("\t\t\t\tBAD checksum - frame ignored\n");
         return;            /*bad checksum, ignore frame*/
     }
 
     /* check what type of frame we have received */
-    switch (f->kind) {
+    switch (f.kind) {
 
         /* we got an ACK check what frame we are on */
         case DL_ACK :
-            if(f->seq == ackexpected[link]) {
-                printf("\t\t\t\tACK received, seq=%d\n", f->seq);
+            if(f.seq == ackexpected[link]) {
+                printf("\t\t\t\tACK received, seq=%d\n", f.seq);
                 CNET_stop_timer(lasttimer);
                 ackexpected[link] = 1 - ackexpected[link];
                 CNET_enable_application(ALLNODES);
@@ -260,22 +261,23 @@ static void datalink_ready(int link, Frame *f, size_t len)
          * If it's not, ignore it and let the timeout occur.
          */
         case DL_DATA :
-            printf("\t\t\t\tDATA received, seq=%d, ", f->seq);
+            printf("\t\t\t\tDATA received, seq=%d, ", f.seq);
             printf("\t\t\t\ton link #%d\n", link);
-            if(f->seq == frameexpected[link]) {
+            if(f.seq == frameexpected[link]) {
 
                 // send ACK then push up network layer
                 frameexpected[link] = 1 - frameexpected[link];
-                datalink_down((Packet *)NULL, DL_ACK, 0, f->seq, link);
+                Packet p;
+                datalink_down(p, DL_ACK, 0, f.seq, link);
 
                 // pass up to the network layer
                 printf("DATALINK: Passing packet up to network. size:%d\n", len);
-                network_ready((Packet *)&f->msg, f->len, link);
+                network_ready((Packet)f.msg, f.len, link);
             }
             else
             {
                 printf("Unexpected sequence number %d want %d\n", 
-                        f->seq, frameexpected[link]);
+                        f.seq, frameexpected[link]);
             }
         break;
     }
@@ -298,7 +300,7 @@ static void physical_ready(CnetEvent ev, CnetTimerID timer, CnetData data)
         printf("PHYSICAL: Just received a frame...\n");
         printFrame(link, &f, len);
     }
-    datalink_ready(link, &f, len);
+    datalink_ready(link, f, len);
 }
 
 
