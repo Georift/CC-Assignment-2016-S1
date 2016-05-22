@@ -129,8 +129,12 @@ static void datalink_down(Packet *msg, Framekind kind,
             CnetTime	timeout;
 
             printf(" DATA transmitted, seq=%d\n", seqno);
+            length = sizeof(Packet);
             printf("DEBUG: Copying %d from message into packet data\n", length);
-            memcpy(&f.msg, (char *)msg, (int)length);
+
+            printf("DEBUG: msg src: %d dest: %d\n", msg->src_addr, msg->dest_addr);
+            memcpy(&f.msg, (char *)msg, length);
+            printf("DEBUG: msg src: %d dest: %d\n", f.msg.src_addr, f.msg.dest_addr);
 
             timeout = FRAME_SIZE(f)*((CnetTime)8000000 / linkinfo[link].bandwidth) +
                 linkinfo[link].propagationdelay;

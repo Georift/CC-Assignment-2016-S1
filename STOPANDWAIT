@@ -1,5 +1,6 @@
 compile			= "stopandwait.c"
 winopen = true
+maxmessagesize  = 256bytes
 
 bandwidth		= 56Kbps,
 
