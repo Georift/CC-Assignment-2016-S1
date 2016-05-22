@@ -38,9 +38,11 @@ static int windowUsed[MAX_LINKS];
 // holds all our windows
 static Frame window[MAX_LINKS][MAX_WINDOW];
 
-static int ackexpected[MAX_LINKS];
+//static int ackexpected[MAX_LINKS];
 static int nextframetosend[MAX_LINKS];
-static int frameexpected[MAX_LINKS];
+//static int frameexpected[MAX_LINKS];
+
+static int expectedFrame[MAX_LINKS];
 
 const int routingTable[3][3] = {
     {0, 1, 2}, /* PERTH */
@@ -71,6 +73,43 @@ void printFrame(int link, Frame *f, size_t length)
             printf("ACK\n");
         }
     }
+}
+
+/*
+int expectedNextFrame(int link)
+{
+    // find the next sequency number
+    // get the last in the queue 
+    int last = window[link - 1][windowUsed[link - 1]].seq;
+    int new = -1;
+
+    if (last + 1 > (windowSize - 1))
+    {
+        new = 0;
+    }
+    else
+    {
+        new = last + 1;
+    }
+
+    return new;
+}
+*/
+
+/* find the next sequency number */
+int expectedNextFrame(int link)
+{
+    int nextFrame = expectedFrame[link - 1];
+    if (nextFrame + 1 > (windowSize - 1))
+    {
+        nextFrame = 0;
+    }
+    else
+    {
+        nextFrame++;
+    }
+
+    return nextFrame;
 }
 
 
@@ -107,6 +146,27 @@ void startTimer(int link, CnetTime timeout)
     }
 }
 
+void restartTimer(int link, CnetTime timeout)
+{
+    switch((link - 1))
+    {
+        case 0:
+            CNET_stop_timer(timer[0]);
+            break;
+        case 1:
+            CNET_stop_timer(timer[1]);
+            break;
+        case 2:
+            CNET_stop_timer(timer[2]);
+            break;
+        case 3:
+            CNET_stop_timer(timer[3]);
+            break;
+    }
+
+    startTimer(link, timeout);
+}
+
 /**
  * Network and application layer for receiver
  */
@@ -118,7 +178,9 @@ static void network_ready(Frame f, size_t length, int link)
         printf("NETWORK: We got a node for %d seq %d, we are %d\n         It came from link #%d\n",
                 f.dest_addr, f.seq, nodeinfo.nodenumber, link);
         int newLink = routingTable[nodeinfo.nodenumber][f.dest_addr];
-        datalink_down(f, DL_DATA, nextframetosend[newLink], newLink);
+
+        /* pass a new datalink_down through */
+        datalink_down(f, DL_DATA, expectedNextFrame(newLink), newLink);
     }
     else
     {
@@ -148,11 +210,6 @@ static void datalink_ready(int link, Frame f)
     int ii;
     int accepted = 0;
 
-    if (ackexpected[0] == 0)
-    {
-
-    }
-
     /* check what type of frame we have received */
     switch (f.kind) {
 
@@ -174,6 +231,7 @@ static void datalink_ready(int link, Frame f)
                         // accepted now contains number of frames that
                         // have been accepted
                         accepted = (windowUsed[link - 1] - ii);
+                        printf("DATALINK: We have accepted %d frames\n", accepted);
                     }
                 }
             }
@@ -188,28 +246,29 @@ static void datalink_ready(int link, Frame f)
                     window[link - 1][jj] = window[link - 1][jj + 1];
                 }
 
+                printf("DATALINK: Prev. window usage: %d\n", windowUsed[link - 1]);
                 windowUsed[link - 1] = windowUsed[link - 1] - accepted;
+                printf("DATALINK: New window usage: %d\n", windowUsed[link - 1]);
+
+                /* restart the timeout for this link with the oldest
+                 * node in the queue. */
+
+                printf("DATALINK: Restarting timer on link %d\n", link);
+                CnetTime timeout = FRAME_SIZE(f)
+                    *((CnetTime)8000000 / linkinfo[link].bandwidth) +
+                    linkinfo[link].propagationdelay;
+                restartTimer(link, timeout);
+
+                /* check if the window has room and reopen application */
+                if (windowUsed[link - 1] < (windowSize - 1))
+                {
+                    CNET_enable_application(f.src_addr);
+                }
             }
             else
             {
                 // we don't know what ACK number that is....
             }
-
-
-
-            /*
-            if(f.seq == ackexpected[link]) 
-            {
-                printf("\t\t\t\tACK received, seq=%d\n", f.seq);
-                CNET_stop_timer(timer[link - 1]);
-                ackexpected[link] = 1 - ackexpected[link];
-                CNET_enable_application(f.src_addr);
-            }
-            else
-            {
-                * we got the wrong ack 
-            }
-            */
         break;
 
         /* we got data check if it was the expected seq number
@@ -218,10 +277,15 @@ static void datalink_ready(int link, Frame f)
          */
         case DL_DATA :
             printf("\t\t\t\tDATA received, seq=%d on link %d\n", f.seq, link);
-            if(f.seq == frameexpected[link]) {
 
+            /*
+             * frame expected should be the last sequence number
+             * + 1 in the window for that link */
+            if (f.seq == expectedNextFrame(link))
+            {
+                
                 // send ACK then push up network layer
-                frameexpected[link] = 1 - frameexpected[link];
+                //frameexpected[link] = 1 - frameexpected[link];
 
                 Frame ack;
                 ack.src_addr = nodeinfo.nodenumber;
@@ -234,7 +298,8 @@ static void datalink_ready(int link, Frame f)
                 /* or pass it along. */
                 if (f.dest_addr == nodeinfo.nodenumber)
                 {
-                    datalink_down(ack, DL_ACK, f.seq, link);
+                    datalink_down(ack, DL_ACK, expectedNextFrame(link), link);
+                    expectedFrame[link - 1] = expectedNextFrame(link);
                     network_ready(f, f.len, link);
                     printf("DATALINK: Passing packet up to network. size:%d\n", sizeof(Frame));
                 }
@@ -250,9 +315,14 @@ static void datalink_ready(int link, Frame f)
                         /* we have room for it */
                         window[newLink][windowUsed[newLink]] = f;
                         windowUsed[newLink]++;
+                        /* increment the expected frame */
 
                         // send the ack after the window has been filled
-                        datalink_down(ack, DL_ACK, f.seq, link);
+                        datalink_down(ack, DL_ACK, expectedNextFrame(link), link);
+                        expectedFrame[newLink - 1] = expectedNextFrame(newLink);
+
+                        /* send out the frame we added to the window */
+                        datalink_down(f, DL_DATA, expectedNextFrame(newLink), newLink);
 
                         printf("DATALINK: Frame added to window, ack sent\n");
                     }
@@ -266,8 +336,10 @@ static void datalink_ready(int link, Frame f)
             }
             else
             {
+                /* we didn't get the correct send an ACK of the last we
+                 * received TODO */
                 printf("Unexpected sequence number %d want %d\n", 
-                        f.seq, frameexpected[link]);
+                        f.seq, expectedNextFrame(link));
             }
         break;
     }
@@ -339,15 +411,19 @@ static void datalink_down(Frame f, Framekind kind,
             {
                 printf("DATA: No room in window for frame.\n");
                 /* ignore it */
+                return;
             }
             else
             {
                 /* we have room inside out window. */
-                window[link][windowUsed[link]] = f;
-                windowUsed[link]++;
+                window[link - 1][windowUsed[link - 1]] = f;
+                windowUsed[link - 1]++;
+                printf("DATALINK DOWN: Old sequence # is %d\n", expectedFrame[link -1]);
+                expectedFrame[link - 1] = expectedNextFrame(link);
             }
 
             printf(" DATA transmitted, seq=%d\n", seqno);
+            printf("DATALINK DOWN: new sequence # is %d\n", expectedFrame[link -1]);
 
             /* how long should our timeout be */
             timeout = FRAME_SIZE(f)*((CnetTime)8000000 / linkinfo[link].bandwidth) +
@@ -356,7 +432,7 @@ static void datalink_down(Frame f, Framekind kind,
             /* store our last frame incase of timeouts */
             lastFrame[link - 1] = f;
 
-            startTimer(link, timeout);
+            restartTimer(link, timeout);
             break;
         }
     }
@@ -381,7 +457,7 @@ static void network_down(Frame f)
     f.src_addr = nodeinfo.nodenumber;
     printf("NETWORK: send packet on link %d for node %d\n", linkToUse, f.dest_addr);
     //printf("\tnetwork had decided to use link %d to send to %d\n", linkToUse, p.dest_addr);
-    datalink_down(f, DL_DATA, nextframetosend[linkToUse], linkToUse);
+    datalink_down(f, DL_DATA, expectedNextFrame(linkToUse), linkToUse);
     nextframetosend[linkToUse] = 1 - nextframetosend[linkToUse];
 }
 
@@ -411,25 +487,25 @@ static void application_down(CnetEvent ev, CnetTimerID timer, CnetData cdata)
 static void timeout1(CnetEvent ev, CnetTimerID timer, CnetData data)
 {
     printf("timeout on link #1\n");
-    datalink_down(lastFrame[0], DL_DATA, lastFrame[0].seq, 1);
+    datalink_down(window[0][0], DL_DATA, lastFrame[0].seq, 1);
 }
 
 static void timeout2(CnetEvent ev, CnetTimerID timer, CnetData data)
 {
     printf("timeout on link #2\n");
-    datalink_down(lastFrame[1], DL_DATA, lastFrame[1].seq, 2);
+    datalink_down(window[1][0], DL_DATA, lastFrame[1].seq, 2);
 }
 
 static void timeout3(CnetEvent ev, CnetTimerID timer, CnetData data)
 {
     printf("timeout on link #3\n");
-    datalink_down(lastFrame[2], DL_DATA, lastFrame[2].seq, 3);
+    datalink_down(window[2][0], DL_DATA, lastFrame[2].seq, 3);
 }
 
 static void timeout4(CnetEvent ev, CnetTimerID timer, CnetData data)
 {
     printf("timeout on link #4\n");
-    datalink_down(lastFrame[3], DL_DATA, lastFrame[3].seq, 4);
+    datalink_down(window[3][0], DL_DATA, lastFrame[3].seq, 4);
 }
 
 static void showstate(CnetEvent ev, CnetTimerID timer, CnetData data)
@@ -461,8 +537,6 @@ void reboot_node(CnetEvent ev, CnetTimerID timer, CnetData data)
         windowUsed[ii] = 0;
     }
 
-    CNET_enable_application(ALLNODES);
-    /*
     if (nodeinfo.nodenumber == 0)
     {
         CNET_enable_application(ALLNODES);
@@ -471,7 +545,6 @@ void reboot_node(CnetEvent ev, CnetTimerID timer, CnetData data)
     {
         CNET_disable_application(ALLNODES);
     }
-    */
 }
 
 
