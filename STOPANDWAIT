@@ -8,11 +8,22 @@ propagationdelay        = 2500ms,
 
 host perth {
     winx=0, winy=50
+    
+    outputfile="perth"
     link to sydney {
     }
 }
 
 host sydney {
     winx=550, winy=50
+    outputfile="sydney"
     east east east east east of perth
+}
+
+host melbourne {
+    winx=550, winy=50
+    south south south of perth
+    outputfile="melbourne"
+    link to perth{
+    }
 }
