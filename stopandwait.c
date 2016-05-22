@@ -5,7 +5,7 @@ typedef enum    { DL_DATA, DL_ACK }   Framekind;
 
 #define MAX_MESSAGE 256
 #define MAX_LINKS 4
-#define MAX_WINDOW 12
+#define MAX_WINDOW 48
 
 typedef struct {
     Framekind    kind;      	/* only ever DL_DATA or DL_ACK */
@@ -45,10 +45,14 @@ static int nextframetosend[MAX_LINKS];
 static int expectedFrame[MAX_LINKS];
 static int nextToReceive[MAX_LINKS];
 
-const int routingTable[3][3] = {
-    {0, 1, 2}, /* PERTH */
-    {1, 0, 1}, /* SYDNEY */
-    {1, 1, 0} /* Melbourne */
+const int routingTable[7][7] = {
+    {0, 1, 2, 3, 4, 4, 4}, /* Indonesia */
+    {1, 0, 2, 1, 1, 1, 1}, /* Malaysia */
+    {1, 2, 0, 1, 1, 1, 1}, /* Singapore */
+    {1, 1, 1, 0, 1, 1, 1}, /* Brunei */
+    {1, 1, 1, 1, 0, 2, 3}, /* Australia */
+    {1, 1, 1, 1, 1, 0, 1}, /* Fiji */
+    {1, 1, 1, 1, 1, 1, 0}, /* New Zealand */
 };
 
 void printFrame(int link, Frame *f, size_t length)

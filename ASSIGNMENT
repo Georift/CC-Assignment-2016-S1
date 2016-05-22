@@ -1,15 +1,16 @@
-compile			= "-G stopandwait.c"
-winopen = true
-maxmessagesize  = 256bytes
+compile			= "-G stopandwait.c",
+winopen = true,
+maxmessagesize  = 256bytes,
 
 bandwidth		= 56Kbps,
 
 messagerate             = 1000ms,
 propagationdelay        = 2500ms,
 
-probframecorrupt = 0
+probframecorrupt = 0,
 
 host indonesia {
+    x=150, y=150
     winx=0, winy=250
     outputfile="indonesia"
     link to malaysia {
@@ -21,6 +22,7 @@ host indonesia {
 }
 
 host australia {
+    x=350, y=150
     winx=550, winy=250
     outputfile="australia"
     link to indonesia {
@@ -32,6 +34,7 @@ host australia {
 }
 
 host malaysia {
+    x=50, y=50
     winx=1050, winy=250
     outputfile="malaysia"
     link to singapore {
@@ -39,11 +42,13 @@ host malaysia {
 }
 
 host singapore {
+    x=50, y=250
     winx=1050, winy=600
     outputfile="singapore"
 }
 
 host brunei {
+    x=150, y=50
     winx=0, winy=600
     outputfile="brunei"
     link to indonesia {
@@ -51,6 +56,7 @@ host brunei {
 }
 
 host fiji {
+    x=450, y=50
     winx=550, winy=600
     outputfile="fiji"
     link to australia {
@@ -58,6 +64,7 @@ host fiji {
 }
 
 host newzealand {
+    x=450, y=250
     winx=1050, winy=600
     outputfile="newzealand"
     link to australia {
