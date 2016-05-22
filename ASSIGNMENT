@@ -1,0 +1,66 @@
+compile			= "-G stopandwait.c"
+winopen = true
+maxmessagesize  = 256bytes
+
+bandwidth		= 56Kbps,
+
+messagerate             = 1000ms,
+propagationdelay        = 2500ms,
+
+probframecorrupt = 0
+
+host indonesia {
+    winx=0, winy=250
+    outputfile="indonesia"
+    link to malaysia {
+    }
+    link to singapore {
+    }
+    link to brunei {
+    }
+}
+
+host australia {
+    winx=550, winy=250
+    outputfile="australia"
+    link to indonesia {
+    }
+    link to fiji {
+    }
+    link to newzealand {
+    }
+}
+
+host malaysia {
+    winx=1050, winy=250
+    outputfile="malaysia"
+    link to singapore {
+    }
+}
+
+host singapore {
+    winx=1050, winy=600
+    outputfile="singapore"
+}
+
+host brunei {
+    winx=0, winy=600
+    outputfile="brunei"
+    link to indonesia {
+    }
+}
+
+host fiji {
+    winx=550, winy=600
+    outputfile="fiji"
+    link to australia {
+    }
+}
+
+host newzealand {
+    winx=1050, winy=600
+    outputfile="newzealand"
+    link to australia {
+    }
+}
+

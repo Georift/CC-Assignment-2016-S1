@@ -43,6 +43,7 @@ static int nextframetosend[MAX_LINKS];
 //static int frameexpected[MAX_LINKS];
 
 static int expectedFrame[MAX_LINKS];
+static int nextToReceive[MAX_LINKS];
 
 const int routingTable[3][3] = {
     {0, 1, 2}, /* PERTH */
@@ -96,7 +97,8 @@ int expectedNextFrame(int link)
 }
 */
 
-/* find the next sequency number */
+/* find the next sequency number that we should
+ * use */
 int expectedNextFrame(int link)
 {
     int nextFrame = expectedFrame[link - 1];
@@ -112,6 +114,21 @@ int expectedNextFrame(int link)
     return nextFrame;
 }
 
+/* find the next sequency number we should expect */
+int nextReceive(int link)
+{
+    int nextFrame = nextToReceive[link - 1];
+    if (nextFrame + 1 > (windowSize - 1))
+    {
+        nextFrame = 0;
+    }
+    else
+    {
+        nextFrame++;
+    }
+
+    return nextFrame;
+}
 
 void printbincharpad(char c)
 {
@@ -283,7 +300,7 @@ static void datalink_ready(int link, Frame f)
             /*
              * frame expected should be the last sequence number
              * + 1 in the window for that link */
-            if (f.seq == expectedNextFrame(link))
+            if (f.seq == nextReceive(link))
             {
                 
                 // send ACK then push up network layer
@@ -300,8 +317,8 @@ static void datalink_ready(int link, Frame f)
                 /* or pass it along. */
                 if (f.dest_addr == nodeinfo.nodenumber)
                 {
-                    datalink_down(ack, DL_ACK, expectedNextFrame(link), link);
-                    expectedFrame[link - 1] = expectedNextFrame(link);
+                    datalink_down(ack, DL_ACK, f.seq, link);
+                    nextToReceive[link - 1] = nextReceive(link);
                     network_ready(f, f.len, link);
                     printf("DATALINK: Passing packet up to network. size:%d\n", sizeof(Frame));
                 }
@@ -320,11 +337,11 @@ static void datalink_ready(int link, Frame f)
                         /* increment the expected frame */
 
                         // send the ack after the window has been filled
-                        datalink_down(ack, DL_ACK, expectedNextFrame(link), link);
+                        datalink_down(ack, DL_ACK, f.seq, link);
 
                         /* send out the frame we added to the window */
                         datalink_down(f, DL_DATA, expectedNextFrame(newLink), newLink);
-                        expectedFrame[link - 1] = expectedNextFrame(link);
+                        nextToReceive[link - 1] = nextReceive(link);
 
                         printf("DATALINK: Frame added to window, ack sent\n");
                     }
@@ -341,7 +358,7 @@ static void datalink_ready(int link, Frame f)
                 /* we didn't get the correct send an ACK of the last we
                  * received TODO */
                 printf("Unexpected sequence number %d want %d\n", 
-                        f.seq, expectedNextFrame(link));
+                        f.seq, nextReceive(link));
             }
         break;
     }
@@ -539,14 +556,7 @@ void reboot_node(CnetEvent ev, CnetTimerID timer, CnetData data)
         windowUsed[ii] = 0;
     }
 
-    if (nodeinfo.nodenumber == 1)
-    {
-        CNET_enable_application(ALLNODES);
-    }
-    else
-    {
-        CNET_disable_application(ALLNODES);
-    }
+    CNET_enable_application(ALLNODES);
 }
 
 
