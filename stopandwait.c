@@ -1,35 +1,10 @@
 #include <cnet.h>
 #include <stdlib.h>
 #include <string.h>
-
-/*  This is an implementation of a stop-and-wait data link protocol.
-    It is based on Tanenbaum's `protocol 4', 2nd edition, p227
-    (or his 3rd edition, p205).
-    This protocol employs only data and acknowledgement frames -
-    piggybacking and negative acknowledgements are not used.
-
-    It is currently written so that only one node (number 0) will
-    generate and transmit messages and the other (number 1) will receive
-    them. This restriction seems to best demonstrate the protocol to
-    those unfamiliar with it.
-    The restriction can easily be removed by "commenting out" the line
-
-	    if(nodeinfo.nodenumber == 0)
-
-    in reboot_node(). Both nodes will then transmit and receive (why?).
-
-    Note that this file only provides a reliable data-link layer for a
-    network of 2 nodes.
- */
-
 typedef enum    { DL_DATA, DL_ACK }   Framekind;
 
-/*
-typedef struct {
-        char data[MAX_MESSAGE_SIZE];
-} Data;
-*/
 #define MAX_MESSAGE 256
+#define MAX_LINKS 4
 
 typedef struct {
     Framekind    kind;      	/* only ever DL_DATA or DL_ACK */
@@ -45,17 +20,12 @@ typedef struct {
 #define FRAME_HEADER_SIZE  (sizeof(Frame) - (sizeof(char) * MAX_MESSAGE))
 #define FRAME_SIZE(f)      (FRAME_HEADER_SIZE + f.len)
 
-#define MAX_LINKS 4
 
 static void datalink_down(Frame f, Framekind kind, 
                     int seqno, int link);
 
 static int packetIndex = 0;
-
 Frame lastFrame[MAX_LINKS];
-
-static  char   *lastmsg;
-
 static CnetTimerID timer[MAX_LINKS];
 
 /*
@@ -132,21 +102,6 @@ void startTimer(int link, CnetTime timeout)
             break;
     }
 }
-
-/*
-static void printCharArray(const char *array, size_t length)
-{
-    int ii;
-    printf("\"");
-    for( ii = 0; ii < length; ii++)
-    {
-        printbincharpad(array[ii]);
-    }
-    printf("\"");
-    printf("\n");
-
-}
-*/
 
 /**
  * Network and application layer for receiver
@@ -278,6 +233,8 @@ static void datalink_down(Frame f, Framekind kind,
         case DL_ACK :
             printf("ACK transmitted, seq=%d\n", seqno);
             f.src_addr = nodeinfo.nodenumber;
+            /* maybe remove this from last frame? */
+
         break;
 
         case DL_DATA: {
@@ -376,8 +333,6 @@ static void showstate(CnetEvent ev, CnetTimerID timer, CnetData data)
 
 void reboot_node(CnetEvent ev, CnetTimerID timer, CnetData data)
 {
-    lastmsg	= calloc(1, sizeof(char) * MAX_MESSAGE);
-
     CHECK(CNET_set_handler( EV_APPLICATIONREADY, application_down, 0));
     CHECK(CNET_set_handler( EV_PHYSICALREADY,    physical_ready, 0));
 
