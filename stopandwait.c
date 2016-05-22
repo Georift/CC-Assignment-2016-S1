@@ -29,11 +29,12 @@ typedef struct {
         char data[MAX_MESSAGE_SIZE];
 } Data;
 */
+#define MAX_MESSAGE 256
 
 typedef struct {
     CnetAddr src_addr;
     CnetAddr dest_addr;
-    char     data[MAX_MESSAGE_SIZE];
+    char     data[MAX_MESSAGE];
 } Packet;
 
 typedef struct {
@@ -91,26 +92,25 @@ void printFrame(int link, Frame *f, size_t length)
 /* Passing into the physical layer from further up.*/
 static void physical_down(int link, Frame *f, size_t length)
 {
-    printf("length of frame before %d\n", length);
-    printf("PHYSICAL: Just sent a frame...\n");
-    printFrame(link, (Frame *)&f, length);
+    //printf("PHYSICAL: Just sent a frame...\n");
+    //printFrame(link, (Frame *)&f, length);
+    printf("PHYSICAL: Trying to print frame of size %d\n", length);
     CHECK(CNET_write_physical(link, (char *)f, &length));
-    printf("length of frame after %d\n", length);
 }
 
 /* input to data link layer from above */
 static void datalink_down(Packet *msg, Framekind kind, 
                     size_t length, int seqno, int link)
 {
-    printf("\t passed into data link down %d\n", link);
-    if (kind == DL_ACK)
-    {
-        printf("\t packet is an ACK no destination\n");
-    }
-    else
-    {
-        printf("\t packet needs to go to %d\n", msg->dest_addr);
-    }
+  //printf("\t passed into data link down %d\n", link);
+  //if (kind == DL_ACK)
+  //{
+  //    printf("\t packet is an ACK no destination\n");
+  //}
+  //else
+  //{
+  //    printf("\t packet needs to go to %d\n", msg->dest_addr);
+  //}
     // take the packet and generate a frame for it.
     Frame f;
 
@@ -119,7 +119,6 @@ static void datalink_down(Packet *msg, Framekind kind,
     f.checksum  = 0;
     f.len       = length;
 
-    printf("DATALINK DOWN: frame size: %d of type: %d\n", length, kind);
 
     switch (kind) {
         case DL_ACK :
@@ -130,6 +129,7 @@ static void datalink_down(Packet *msg, Framekind kind,
             CnetTime	timeout;
 
             printf(" DATA transmitted, seq=%d\n", seqno);
+            printf("DEBUG: Copying %d from message into packet data\n", length);
             memcpy(&f.msg, (char *)msg, (int)length);
 
             timeout = FRAME_SIZE(f)*((CnetTime)8000000 / linkinfo[link].bandwidth) +
@@ -139,16 +139,12 @@ static void datalink_down(Packet *msg, Framekind kind,
             break;
         }
     }
-    length      = FRAME_SIZE(f);
+    //length      = FRAME_SIZE(f);
+    length = sizeof(Frame);
+    printf("DATALINK DOWN: frame size: %d of type: %d\n", length, kind);
     f.checksum  = CNET_ccitt((unsigned char *)&f, (size_t)length);
 
-    if (kind == DL_ACK)
-    {
-        printf("\t this packet is an ACK\n");
-    }
-    printf("\t link before physical %d sending to %d \n", link, f.msg.dest_addr);
     physical_down(link, &f, length);
-    printf("\t link after physical %d\n", link);
 }
 
 /** 
@@ -158,8 +154,6 @@ static void network_down(CnetAddr destAddr, size_t length, char *message)
 {
     // find which node to send it too.
     int linkToUse = routingTable[nodeinfo.nodenumber][destAddr];
-    printf("down from application, seq=%d\n", nextframetosend[linkToUse]);
-    printf("sending on link %d for node %d\n", linkToUse, destAddr);
 
     /* encapsulate the message in a packet */
     Packet p;
@@ -167,7 +161,7 @@ static void network_down(CnetAddr destAddr, size_t length, char *message)
     p.dest_addr = destAddr;
     memcpy((char *)&p.data, (char *)&message, length);
 
-    printf("NETWORK: send packet on link %d", linkToUse);
+    printf("NETWORK: send packet on link %d for node %d\n", linkToUse, destAddr);
     //printf("\tnetwork had decided to use link %d to send to %d\n", linkToUse, p.dest_addr);
     datalink_down(&p, DL_DATA, length, nextframetosend[linkToUse], linkToUse);
     nextframetosend[linkToUse] = 1 - nextframetosend[linkToUse];
@@ -194,8 +188,9 @@ static void printCharArray(const char *array, size_t length)
 static void application_down(CnetEvent ev, CnetTimerID timer, CnetData cdata)
 {
     CnetAddr destAddr;
-    char data[MAX_MESSAGE_SIZE];
-    size_t msgLength = sizeof(char) * MAX_MESSAGE_SIZE;
+    char data[MAX_MESSAGE];
+    printf("DEBUG: Max size of message is %d\n", sizeof(data));
+    size_t msgLength = sizeof(char) * MAX_MESSAGE;
 
 
     CHECK(CNET_read_application(&destAddr, (char *)&data, &msgLength));
@@ -294,8 +289,11 @@ static void physical_ready(CnetEvent ev, CnetTimerID timer, CnetData data)
     len = sizeof(Frame);
 
     CHECK(CNET_read_physical(&link, (Frame *)&f, &len));
-    printf("PHYSICAL: Just received a frame...\n");
-    printFrame(link, &f, len);
+    if (len != 24)
+    {
+        printf("PHYSICAL: Just received a frame...\n");
+        printFrame(link, &f, len);
+    }
     datalink_ready(link, &f, len);
 }
 
@@ -327,6 +325,10 @@ void reboot_node(CnetEvent ev, CnetTimerID timer, CnetData data)
 
     CHECK(CNET_set_debug_string( EV_DEBUG0, "State"));
 
-	CNET_enable_application(ALLNODES);
+    if (nodeinfo.nodenumber != 1)
+    {
+        CNET_enable_application(ALLNODES);
+    }
 }
+
 
