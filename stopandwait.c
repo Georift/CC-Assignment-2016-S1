@@ -246,9 +246,11 @@ static void datalink_ready(int link, Frame f)
                     window[link - 1][jj] = window[link - 1][jj + 1];
                 }
 
-                printf("DATALINK: Prev. window usage: %d\n", windowUsed[link - 1]);
+                printf("DATALINK: Prev. window usage: %d link %d\n", 
+                        windowUsed[link - 1], link);
                 windowUsed[link - 1] = windowUsed[link - 1] - accepted;
-                printf("DATALINK: New window usage: %d\n", windowUsed[link - 1]);
+                printf("DATALINK: New window usage: %d link %d\n", 
+                        windowUsed[link - 1], link);
 
                 /* restart the timeout for this link with the oldest
                  * node in the queue. */
@@ -319,10 +321,10 @@ static void datalink_ready(int link, Frame f)
 
                         // send the ack after the window has been filled
                         datalink_down(ack, DL_ACK, expectedNextFrame(link), link);
-                        expectedFrame[newLink - 1] = expectedNextFrame(newLink);
 
                         /* send out the frame we added to the window */
                         datalink_down(f, DL_DATA, expectedNextFrame(newLink), newLink);
+                        expectedFrame[link - 1] = expectedNextFrame(link);
 
                         printf("DATALINK: Frame added to window, ack sent\n");
                     }
@@ -537,7 +539,7 @@ void reboot_node(CnetEvent ev, CnetTimerID timer, CnetData data)
         windowUsed[ii] = 0;
     }
 
-    if (nodeinfo.nodenumber == 0)
+    if (nodeinfo.nodenumber == 1)
     {
         CNET_enable_application(ALLNODES);
     }
