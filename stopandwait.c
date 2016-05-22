@@ -5,6 +5,7 @@ typedef enum    { DL_DATA, DL_ACK }   Framekind;
 
 #define MAX_MESSAGE 256
 #define MAX_LINKS 4
+#define MAX_WINDOW 12
 
 typedef struct {
     Framekind    kind;      	/* only ever DL_DATA or DL_ACK */
@@ -28,11 +29,14 @@ static int packetIndex = 0;
 Frame lastFrame[MAX_LINKS];
 static CnetTimerID timer[MAX_LINKS];
 
-/*
-static  int       	ackexpected		= 0;
-static	int		nextframetosend		= 0;
-static	int		frameexpected		= 0;
-*/
+// how large are our buffers?
+static int windowSize;
+
+// how much of each links buffer had been used?
+static int windowUsed[MAX_LINKS];
+
+// holds all our windows
+static Frame window[MAX_LINKS][MAX_WINDOW];
 
 static int ackexpected[MAX_LINKS];
 static int nextframetosend[MAX_LINKS];
@@ -146,11 +150,21 @@ static void datalink_ready(int link, Frame f)
 
         /* we got an ACK check what frame we are on */
         case DL_ACK :
-            if(f.seq == ackexpected[link]) {
+            /* we recieved an ACK. Check what was the next
+             * link in the buffer. */
+
+
+
+            if(f.seq == ackexpected[link]) 
+            {
                 printf("\t\t\t\tACK received, seq=%d\n", f.seq);
                 CNET_stop_timer(timer[link - 1]);
                 ackexpected[link] = 1 - ackexpected[link];
                 CNET_enable_application(f.src_addr);
+            }
+            else
+            {
+                /* we got the wrong ack */
             }
         break;
 
@@ -159,8 +173,7 @@ static void datalink_ready(int link, Frame f)
          * If it's not, ignore it and let the timeout occur.
          */
         case DL_DATA :
-            printf("\t\t\t\tDATA received, seq=%d, ", f.seq);
-            printf("\t\t\t\ton link #%d\n", link);
+            printf("\t\t\t\tDATA received, seq=%d on link %d\n", f.seq, link);
             if(f.seq == frameexpected[link]) {
 
                 // send ACK then push up network layer
@@ -173,11 +186,39 @@ static void datalink_ready(int link, Frame f)
                 ack.kind = DL_ACK;
                 ack.len = 0;
 
-                datalink_down(ack, DL_ACK, f.seq, link);
+                /* check if we need to add this to our buffer. */
+                /* or pass it along. */
+                if (f.dest_addr == nodeinfo.nodenumber)
+                {
+                    datalink_down(ack, DL_ACK, f.seq, link);
+                    network_ready(f, f.len, link);
+                    printf("DATALINK: Passing packet up to network. size:%d\n", sizeof(Frame));
+                }
+                else
+                {
+                    int newLink = routingTable[nodeinfo.nodenumber][f.dest_addr];
+                    /* 
+                     * we will need to do some routing. 
+                     * work out if we have room for it
+                     */
+                    if (windowUsed[newLink] < windowSize)
+                    {
+                        /* we have room for it */
+                        window[newLink][windowUsed[newLink]] = f;
+                        windowUsed[newLink]++;
 
-                // pass up to the network layer
-                printf("DATALINK: Passing packet up to network. size:%d\n", sizeof(Frame));
-                network_ready(f, f.len, link);
+                        // send the ack after the window has been filled
+                        datalink_down(ack, DL_ACK, f.seq, link);
+
+                        printf("DATALINK: Frame added to window, ack sent\n");
+                    }
+                    else
+                    {
+                        /* we don't have room for it */
+                        /* ignore it */
+                        printf("DATALINK: Window exhasted, ignore frame.\n");
+                    }
+                }
             }
             else
             {
@@ -237,8 +278,31 @@ static void datalink_down(Frame f, Framekind kind,
 
         break;
 
+        /**
+         * we are sending a new frame with data 
+         * check if we have room in our window
+         *      if so, add and reduce our size.
+         *
+         * If the window is exhasted we should close
+         * application for that link. TODO
+         */
         case DL_DATA: {
             CnetTime	timeout;
+
+            /* the window is currently full, ignore the
+             * packet and let the sender resend later. */
+            if (windowUsed[link] >= windowSize)
+            {
+                printf("DATA: No room in window for frame.\n");
+                /* ignore it */
+            }
+            else
+            {
+                /* we have room inside out window. */
+                window[link][windowUsed[link]] = f;
+                windowUsed[link]++;
+            }
+
             printf(" DATA transmitted, seq=%d\n", seqno);
 
             /* how long should our timeout be */
@@ -303,25 +367,25 @@ static void application_down(CnetEvent ev, CnetTimerID timer, CnetData cdata)
 static void timeout1(CnetEvent ev, CnetTimerID timer, CnetData data)
 {
     printf("timeout on link #1\n");
-    datalink_down(lastFrame[0], DL_DATA, ackexpected[0], 1);
+    datalink_down(lastFrame[0], DL_DATA, lastFrame[0].seq, 1);
 }
 
 static void timeout2(CnetEvent ev, CnetTimerID timer, CnetData data)
 {
     printf("timeout on link #2\n");
-    datalink_down(lastFrame[1], DL_DATA, ackexpected[1], 2);
+    datalink_down(lastFrame[1], DL_DATA, lastFrame[1].seq, 2);
 }
 
 static void timeout3(CnetEvent ev, CnetTimerID timer, CnetData data)
 {
     printf("timeout on link #3\n");
-    datalink_down(lastFrame[2], DL_DATA, ackexpected[2], 3);
+    datalink_down(lastFrame[2], DL_DATA, lastFrame[2].seq, 3);
 }
 
 static void timeout4(CnetEvent ev, CnetTimerID timer, CnetData data)
 {
     printf("timeout on link #4\n");
-    datalink_down(lastFrame[3], DL_DATA, ackexpected[3], 4);
+    datalink_down(lastFrame[3], DL_DATA, lastFrame[3].seq, 4);
 }
 
 static void showstate(CnetEvent ev, CnetTimerID timer, CnetData data)
@@ -344,6 +408,14 @@ void reboot_node(CnetEvent ev, CnetTimerID timer, CnetData data)
     CHECK(CNET_set_handler( EV_DEBUG0,           showstate, 0));
 
     CHECK(CNET_set_debug_string( EV_DEBUG0, "State"));
+
+    windowSize = MAX_WINDOW / 2;
+
+    int ii;
+    for (ii = 0; ii < (MAX_WINDOW / 2); ii++)
+    {
+        windowUsed[ii] = 0;
+    }
 
     CNET_enable_application(ALLNODES);
     /*
