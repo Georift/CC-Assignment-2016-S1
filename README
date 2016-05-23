@@ -18,3 +18,8 @@ Currently in the ASSIGNMENT file the sequence numbers get out of sync
 and the nodes end up timing out consistently.
 
 The TEST file is currently working and will work almost indefinitely.
+
+This program has been testing on the following lab machine:
+AssetTag#: D-0004792
+Service Tag: 8FWZF2S
+
