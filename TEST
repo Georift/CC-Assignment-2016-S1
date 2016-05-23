@@ -1,4 +1,4 @@
-compile			= "stopandwait.c"
+compile			= "test.c"
 winopen = true
 maxmessagesize  = 256bytes
 

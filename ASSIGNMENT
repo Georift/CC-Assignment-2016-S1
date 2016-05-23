@@ -1,4 +1,4 @@
-compile			= "-G stopandwait.c",
+compile			= "assignment.c",
 winopen = true,
 maxmessagesize  = 256bytes,
 

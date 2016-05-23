@@ -1,0 +1,1610 @@
+DEBUG: Max size of message is 256
+APPLICATION: Send msg size 102 to node #2
+NETWORK: send packet on link 1 for node 2
+DATALINK DOWN: Old sequence # is 0
+ DATA transmitted, seq=1
+DATALINK DOWN: new sequence # is 1
+DATALINK DOWN: frame size: 284 of type: 0
+PHYSICAL: Trying to transmit frame of size 284
+	Length of frame: 284
+	Seq #: 1
+	Source: 1
+	Destination: 2
+	Link: 1
+	Type: DATA
+DEBUG: Max size of message is 256
+APPLICATION: Send msg size 53 to node #0
+NETWORK: send packet on link 1 for node 0
+DATALINK DOWN: Old sequence # is 1
+ DATA transmitted, seq=2
+DATALINK DOWN: new sequence # is 2
+DATALINK DOWN: frame size: 284 of type: 0
+PHYSICAL: Trying to transmit frame of size 284
+	Length of frame: 284
+	Seq #: 2
+	Source: 1
+	Destination: 0
+	Link: 1
+	Type: DATA
+PHYSICAL: Just received a frame... 0
+	Length of frame: 284
+	Seq #: 1
+	Source: 0
+	Destination: 1
+	Link: 1
+	Type: DATA
+				DATA received, seq=1 on link 1
+ACK transmitted, seq=1
+DATALINK DOWN: frame size: 284 of type: 1
+PHYSICAL: Trying to transmit frame of size 284
+	Length of frame: 284
+	Seq #: 1
+	Source: 1
+	Destination: 0
+	Link: 1
+	Type: ACK
+this is our frame
+frame of size 173 about to be written to application
+DATALINK: Passing packet up to network. size:284
+PHYSICAL: Just received a frame... 2
+	Length of frame: 284
+	Seq #: 1
+	Source: 0
+	Destination: 1
+	Link: 1
+	Type: ACK
+DATALINK: We have accepted 2 frames
+DATALINK: Prev. window usage: 2 link 1
+DATALINK: New window usage: 0 link 1
+DATALINK: Restarting timer on link 1
+PHYSICAL: Just received a frame... 4
+	Length of frame: 284
+	Seq #: 2
+	Source: 0
+	Destination: 1
+	Link: 1
+	Type: ACK
+PHYSICAL: Just received a frame... 7
+	Length of frame: 284
+	Seq #: 2
+	Source: 2
+	Destination: 1
+	Link: 1
+	Type: DATA
+				DATA received, seq=2 on link 1
+ACK transmitted, seq=2
+DATALINK DOWN: frame size: 284 of type: 1
+PHYSICAL: Trying to transmit frame of size 284
+	Length of frame: 284
+	Seq #: 2
+	Source: 1
+	Destination: 2
+	Link: 1
+	Type: ACK
+this is our frame
+frame of size 202 about to be written to application
+DATALINK: Passing packet up to network. size:284
+DEBUG: Max size of message is 256
+APPLICATION: Send msg size 207 to node #0
+NETWORK: send packet on link 1 for node 0
+DATALINK DOWN: Old sequence # is 2
+ DATA transmitted, seq=3
+DATALINK DOWN: new sequence # is 3
+DATALINK DOWN: frame size: 284 of type: 0
+PHYSICAL: Trying to transmit frame of size 284
+	Length of frame: 284
+	Seq #: 3
+	Source: 1
+	Destination: 0
+	Link: 1
+	Type: DATA
+PHYSICAL: Just received a frame... 9
+	Length of frame: 284
+	Seq #: 3
+	Source: 0
+	Destination: 1
+	Link: 1
+	Type: DATA
+				DATA received, seq=3 on link 1
+ACK transmitted, seq=3
+DATALINK DOWN: frame size: 284 of type: 1
+PHYSICAL: Trying to transmit frame of size 284
+	Length of frame: 284
+	Seq #: 3
+	Source: 1
+	Destination: 0
+	Link: 1
+	Type: ACK
+this is our frame
+frame of size 119 about to be written to application
+DATALINK: Passing packet up to network. size:284
+PHYSICAL: Just received a frame... 11
+	Length of frame: 284
+	Seq #: 4
+	Source: 0
+	Destination: 1
+	Link: 1
+	Type: DATA
+				DATA received, seq=4 on link 1
+ACK transmitted, seq=4
+DATALINK DOWN: frame size: 284 of type: 1
+PHYSICAL: Trying to transmit frame of size 284
+	Length of frame: 284
+	Seq #: 4
+	Source: 1
+	Destination: 0
+	Link: 1
+	Type: ACK
+this is our frame
+frame of size 63 about to be written to application
+DATALINK: Passing packet up to network. size:284
+PHYSICAL: Just received a frame... 12
+	Length of frame: 284
+	Seq #: 3
+	Source: 0
+	Destination: 1
+	Link: 1
+	Type: ACK
+DATALINK: We have accepted 1 frames
+DATALINK: Prev. window usage: 1 link 1
+DATALINK: New window usage: 0 link 1
+DATALINK: Restarting timer on link 1
+DEBUG: Max size of message is 256
+APPLICATION: Send msg size 190 to node #0
+NETWORK: send packet on link 1 for node 0
+DATALINK DOWN: Old sequence # is 3
+ DATA transmitted, seq=4
+DATALINK DOWN: new sequence # is 4
+DATALINK DOWN: frame size: 284 of type: 0
+PHYSICAL: Trying to transmit frame of size 284
+	Length of frame: 284
+	Seq #: 4
+	Source: 1
+	Destination: 0
+	Link: 1
+	Type: DATA
+PHYSICAL: Just received a frame... 14
+	Length of frame: 284
+	Seq #: 5
+	Source: 0
+	Destination: 1
+	Link: 1
+	Type: DATA
+				DATA received, seq=5 on link 1
+ACK transmitted, seq=5
+DATALINK DOWN: frame size: 284 of type: 1
+PHYSICAL: Trying to transmit frame of size 284
+	Length of frame: 284
+	Seq #: 5
+	Source: 1
+	Destination: 0
+	Link: 1
+	Type: ACK
+this is our frame
+frame of size 127 about to be written to application
+DATALINK: Passing packet up to network. size:284
+PHYSICAL: Just received a frame... 15
+	Length of frame: 284
+	Seq #: 4
+	Source: 0
+	Destination: 1
+	Link: 1
+	Type: ACK
+DATALINK: We have accepted 1 frames
+DATALINK: Prev. window usage: 1 link 1
+DATALINK: New window usage: 0 link 1
+DATALINK: Restarting timer on link 1
+DEBUG: Max size of message is 256
+APPLICATION: Send msg size 161 to node #0
+NETWORK: send packet on link 1 for node 0
+DATALINK DOWN: Old sequence # is 4
+ DATA transmitted, seq=5
+DATALINK DOWN: new sequence # is 5
+DATALINK DOWN: frame size: 284 of type: 0
+PHYSICAL: Trying to transmit frame of size 284
+	Length of frame: 284
+	Seq #: 5
+	Source: 1
+	Destination: 0
+	Link: 1
+	Type: DATA
+PHYSICAL: Just received a frame... 19
+	Length of frame: 284
+	Seq #: 0
+	Source: 0
+	Destination: 1
+	Link: 1
+	Type: DATA
+				DATA received, seq=0 on link 1
+ACK transmitted, seq=0
+DATALINK DOWN: frame size: 284 of type: 1
+PHYSICAL: Trying to transmit frame of size 284
+	Length of frame: 284
+	Seq #: 0
+	Source: 1
+	Destination: 0
+	Link: 1
+	Type: ACK
+this is our frame
+frame of size 191 about to be written to application
+DATALINK: Passing packet up to network. size:284
+PHYSICAL: Just received a frame... 20
+	Length of frame: 284
+	Seq #: 5
+	Source: 0
+	Destination: 1
+	Link: 1
+	Type: ACK
+DATALINK: We have accepted 1 frames
+DATALINK: Prev. window usage: 1 link 1
+DATALINK: New window usage: 0 link 1
+DATALINK: Restarting timer on link 1
+DEBUG: Max size of message is 256
+APPLICATION: Send msg size 225 to node #0
+NETWORK: send packet on link 1 for node 0
+DATALINK DOWN: Old sequence # is 5
+ DATA transmitted, seq=0
+DATALINK DOWN: new sequence # is 0
+DATALINK DOWN: frame size: 284 of type: 0
+PHYSICAL: Trying to transmit frame of size 284
+	Length of frame: 284
+	Seq #: 0
+	Source: 1
+	Destination: 0
+	Link: 1
+	Type: DATA
+PHYSICAL: Just received a frame... 23
+	Length of frame: 284
+	Seq #: 1
+	Source: 0
+	Destination: 1
+	Link: 1
+	Type: DATA
+				DATA received, seq=1 on link 1
+ACK transmitted, seq=1
+DATALINK DOWN: frame size: 284 of type: 1
+PHYSICAL: Trying to transmit frame of size 284
+	Length of frame: 284
+	Seq #: 1
+	Source: 1
+	Destination: 0
+	Link: 1
+	Type: ACK
+this is our frame
+frame of size 165 about to be written to application
+DATALINK: Passing packet up to network. size:284
+PHYSICAL: Just received a frame... 24
+	Length of frame: 284
+	Seq #: 0
+	Source: 0
+	Destination: 1
+	Link: 1
+	Type: ACK
+DATALINK: We have accepted 1 frames
+DATALINK: Prev. window usage: 1 link 1
+DATALINK: New window usage: 0 link 1
+DATALINK: Restarting timer on link 1
+DEBUG: Max size of message is 256
+APPLICATION: Send msg size 99 to node #0
+NETWORK: send packet on link 1 for node 0
+DATALINK DOWN: Old sequence # is 0
+ DATA transmitted, seq=1
+DATALINK DOWN: new sequence # is 1
+DATALINK DOWN: frame size: 284 of type: 0
+PHYSICAL: Trying to transmit frame of size 284
+	Length of frame: 284
+	Seq #: 1
+	Source: 1
+	Destination: 0
+	Link: 1
+	Type: DATA
+PHYSICAL: Just received a frame... 26
+	Length of frame: 284
+	Seq #: 2
+	Source: 0
+	Destination: 1
+	Link: 1
+	Type: DATA
+				DATA received, seq=2 on link 1
+ACK transmitted, seq=2
+DATALINK DOWN: frame size: 284 of type: 1
+PHYSICAL: Trying to transmit frame of size 284
+	Length of frame: 284
+	Seq #: 2
+	Source: 1
+	Destination: 0
+	Link: 1
+	Type: ACK
+this is our frame
+frame of size 218 about to be written to application
+DATALINK: Passing packet up to network. size:284
+PHYSICAL: Just received a frame... 28
+	Length of frame: 284
+	Seq #: 1
+	Source: 0
+	Destination: 1
+	Link: 1
+	Type: ACK
+DATALINK: We have accepted 1 frames
+DATALINK: Prev. window usage: 1 link 1
+DATALINK: New window usage: 0 link 1
+DATALINK: Restarting timer on link 1
+DEBUG: Max size of message is 256
+APPLICATION: Send msg size 149 to node #0
+NETWORK: send packet on link 1 for node 0
+DATALINK DOWN: Old sequence # is 1
+ DATA transmitted, seq=2
+DATALINK DOWN: new sequence # is 2
+DATALINK DOWN: frame size: 284 of type: 0
+PHYSICAL: Trying to transmit frame of size 284
+	Length of frame: 284
+	Seq #: 2
+	Source: 1
+	Destination: 0
+	Link: 1
+	Type: DATA
+PHYSICAL: Just received a frame... 31
+	Length of frame: 284
+	Seq #: 3
+	Source: 0
+	Destination: 1
+	Link: 1
+	Type: DATA
+				DATA received, seq=3 on link 1
+ACK transmitted, seq=3
+DATALINK DOWN: frame size: 284 of type: 1
+PHYSICAL: Trying to transmit frame of size 284
+	Length of frame: 284
+	Seq #: 3
+	Source: 1
+	Destination: 0
+	Link: 1
+	Type: ACK
+this is our frame
+frame of size 106 about to be written to application
+DATALINK: Passing packet up to network. size:284
+PHYSICAL: Just received a frame... 32
+	Length of frame: 284
+	Seq #: 2
+	Source: 0
+	Destination: 1
+	Link: 1
+	Type: ACK
+DATALINK: We have accepted 0 frames
+DATALINK: We have accepted 1 frames
+DATALINK: Prev. window usage: 1 link 1
+DATALINK: New window usage: 0 link 1
+DATALINK: Restarting timer on link 1
+DEBUG: Max size of message is 256
+APPLICATION: Send msg size 123 to node #0
+NETWORK: send packet on link 1 for node 0
+DATALINK DOWN: Old sequence # is 2
+ DATA transmitted, seq=3
+DATALINK DOWN: new sequence # is 3
+DATALINK DOWN: frame size: 284 of type: 0
+PHYSICAL: Trying to transmit frame of size 284
+	Length of frame: 284
+	Seq #: 3
+	Source: 1
+	Destination: 0
+	Link: 1
+	Type: DATA
+PHYSICAL: Just received a frame... 36
+	Length of frame: 284
+	Seq #: 4
+	Source: 0
+	Destination: 1
+	Link: 1
+	Type: DATA
+				DATA received, seq=4 on link 1
+ACK transmitted, seq=4
+DATALINK DOWN: frame size: 284 of type: 1
+PHYSICAL: Trying to transmit frame of size 284
+	Length of frame: 284
+	Seq #: 4
+	Source: 1
+	Destination: 0
+	Link: 1
+	Type: ACK
+this is our frame
+frame of size 51 about to be written to application
+DATALINK: Passing packet up to network. size:284
+PHYSICAL: Just received a frame... 37
+	Length of frame: 284
+	Seq #: 3
+	Source: 0
+	Destination: 1
+	Link: 1
+	Type: ACK
+DATALINK: We have accepted 1 frames
+DATALINK: Prev. window usage: 1 link 1
+DATALINK: New window usage: 0 link 1
+DATALINK: Restarting timer on link 1
+DEBUG: Max size of message is 256
+APPLICATION: Send msg size 157 to node #0
+NETWORK: send packet on link 1 for node 0
+DATALINK DOWN: Old sequence # is 3
+ DATA transmitted, seq=4
+DATALINK DOWN: new sequence # is 4
+DATALINK DOWN: frame size: 284 of type: 0
+PHYSICAL: Trying to transmit frame of size 284
+	Length of frame: 284
+	Seq #: 4
+	Source: 1
+	Destination: 0
+	Link: 1
+	Type: DATA
+PHYSICAL: Just received a frame... 39
+	Length of frame: 284
+	Seq #: 5
+	Source: 0
+	Destination: 1
+	Link: 1
+	Type: DATA
+				DATA received, seq=5 on link 1
+ACK transmitted, seq=5
+DATALINK DOWN: frame size: 284 of type: 1
+PHYSICAL: Trying to transmit frame of size 284
+	Length of frame: 284
+	Seq #: 5
+	Source: 1
+	Destination: 0
+	Link: 1
+	Type: ACK
+this is our frame
+frame of size 118 about to be written to application
+DATALINK: Passing packet up to network. size:284
+PHYSICAL: Just received a frame... 41
+	Length of frame: 284
+	Seq #: 4
+	Source: 0
+	Destination: 1
+	Link: 1
+	Type: ACK
+DATALINK: We have accepted 1 frames
+DATALINK: Prev. window usage: 1 link 1
+DATALINK: New window usage: 0 link 1
+DATALINK: Restarting timer on link 1
+DEBUG: Max size of message is 256
+APPLICATION: Send msg size 103 to node #0
+NETWORK: send packet on link 1 for node 0
+DATALINK DOWN: Old sequence # is 4
+ DATA transmitted, seq=5
+DATALINK DOWN: new sequence # is 5
+DATALINK DOWN: frame size: 284 of type: 0
+PHYSICAL: Trying to transmit frame of size 284
+	Length of frame: 284
+	Seq #: 5
+	Source: 1
+	Destination: 0
+	Link: 1
+	Type: DATA
+PHYSICAL: Just received a frame... 43
+	Length of frame: 284
+	Seq #: 0
+	Source: 0
+	Destination: 1
+	Link: 1
+	Type: DATA
+				DATA received, seq=0 on link 1
+ACK transmitted, seq=0
+DATALINK DOWN: frame size: 284 of type: 1
+PHYSICAL: Trying to transmit frame of size 284
+	Length of frame: 284
+	Seq #: 0
+	Source: 1
+	Destination: 0
+	Link: 1
+	Type: ACK
+this is our frame
+frame of size 250 about to be written to application
+DATALINK: Passing packet up to network. size:284
+PHYSICAL: Just received a frame... 45
+	Length of frame: 284
+	Seq #: 5
+	Source: 0
+	Destination: 1
+	Link: 1
+	Type: ACK
+DATALINK: We have accepted 1 frames
+DATALINK: Prev. window usage: 1 link 1
+DATALINK: New window usage: 0 link 1
+DATALINK: Restarting timer on link 1
+DEBUG: Max size of message is 256
+APPLICATION: Send msg size 154 to node #0
+NETWORK: send packet on link 1 for node 0
+DATALINK DOWN: Old sequence # is 5
+ DATA transmitted, seq=0
+DATALINK DOWN: new sequence # is 0
+DATALINK DOWN: frame size: 284 of type: 0
+PHYSICAL: Trying to transmit frame of size 284
+	Length of frame: 284
+	Seq #: 0
+	Source: 1
+	Destination: 0
+	Link: 1
+	Type: DATA
+PHYSICAL: Just received a frame... 47
+	Length of frame: 284
+	Seq #: 1
+	Source: 0
+	Destination: 1
+	Link: 1
+	Type: DATA
+				DATA received, seq=1 on link 1
+ACK transmitted, seq=1
+DATALINK DOWN: frame size: 284 of type: 1
+PHYSICAL: Trying to transmit frame of size 284
+	Length of frame: 284
+	Seq #: 1
+	Source: 1
+	Destination: 0
+	Link: 1
+	Type: ACK
+this is our frame
+frame of size 200 about to be written to application
+DATALINK: Passing packet up to network. size:284
+PHYSICAL: Just received a frame... 49
+	Length of frame: 284
+	Seq #: 0
+	Source: 0
+	Destination: 1
+	Link: 1
+	Type: ACK
+DATALINK: We have accepted 1 frames
+DATALINK: Prev. window usage: 1 link 1
+DATALINK: New window usage: 0 link 1
+DATALINK: Restarting timer on link 1
+DEBUG: Max size of message is 256
+APPLICATION: Send msg size 82 to node #0
+NETWORK: send packet on link 1 for node 0
+DATALINK DOWN: Old sequence # is 0
+ DATA transmitted, seq=1
+DATALINK DOWN: new sequence # is 1
+DATALINK DOWN: frame size: 284 of type: 0
+PHYSICAL: Trying to transmit frame of size 284
+	Length of frame: 284
+	Seq #: 1
+	Source: 1
+	Destination: 0
+	Link: 1
+	Type: DATA
+PHYSICAL: Just received a frame... 52
+	Length of frame: 284
+	Seq #: 2
+	Source: 0
+	Destination: 1
+	Link: 1
+	Type: DATA
+				DATA received, seq=2 on link 1
+ACK transmitted, seq=2
+DATALINK DOWN: frame size: 284 of type: 1
+PHYSICAL: Trying to transmit frame of size 284
+	Length of frame: 284
+	Seq #: 2
+	Source: 1
+	Destination: 0
+	Link: 1
+	Type: ACK
+this is our frame
+frame of size 71 about to be written to application
+DATALINK: Passing packet up to network. size:284
+PHYSICAL: Just received a frame... 54
+	Length of frame: 284
+	Seq #: 1
+	Source: 0
+	Destination: 1
+	Link: 1
+	Type: ACK
+DATALINK: We have accepted 1 frames
+DATALINK: Prev. window usage: 1 link 1
+DATALINK: New window usage: 0 link 1
+DATALINK: Restarting timer on link 1
+DEBUG: Max size of message is 256
+APPLICATION: Send msg size 256 to node #0
+NETWORK: send packet on link 1 for node 0
+DATALINK DOWN: Old sequence # is 1
+ DATA transmitted, seq=2
+DATALINK DOWN: new sequence # is 2
+DATALINK DOWN: frame size: 284 of type: 0
+PHYSICAL: Trying to transmit frame of size 284
+	Length of frame: 284
+	Seq #: 2
+	Source: 1
+	Destination: 0
+	Link: 1
+	Type: DATA
+PHYSICAL: Just received a frame... 55
+	Length of frame: 284
+	Seq #: 3
+	Source: 0
+	Destination: 1
+	Link: 1
+	Type: DATA
+				DATA received, seq=3 on link 1
+ACK transmitted, seq=3
+DATALINK DOWN: frame size: 284 of type: 1
+PHYSICAL: Trying to transmit frame of size 284
+	Length of frame: 284
+	Seq #: 3
+	Source: 1
+	Destination: 0
+	Link: 1
+	Type: ACK
+this is our frame
+frame of size 85 about to be written to application
+DATALINK: Passing packet up to network. size:284
+PHYSICAL: Just received a frame... 57
+	Length of frame: 284
+	Seq #: 2
+	Source: 0
+	Destination: 1
+	Link: 1
+	Type: ACK
+DATALINK: We have accepted 0 frames
+DATALINK: We have accepted 1 frames
+DATALINK: Prev. window usage: 1 link 1
+DATALINK: New window usage: 0 link 1
+DATALINK: Restarting timer on link 1
+DEBUG: Max size of message is 256
+APPLICATION: Send msg size 164 to node #0
+NETWORK: send packet on link 1 for node 0
+DATALINK DOWN: Old sequence # is 2
+ DATA transmitted, seq=3
+DATALINK DOWN: new sequence # is 3
+DATALINK DOWN: frame size: 284 of type: 0
+PHYSICAL: Trying to transmit frame of size 284
+	Length of frame: 284
+	Seq #: 3
+	Source: 1
+	Destination: 0
+	Link: 1
+	Type: DATA
+PHYSICAL: Just received a frame... 59
+	Length of frame: 284
+	Seq #: 4
+	Source: 0
+	Destination: 1
+	Link: 1
+	Type: DATA
+				DATA received, seq=4 on link 1
+ACK transmitted, seq=4
+DATALINK DOWN: frame size: 284 of type: 1
+PHYSICAL: Trying to transmit frame of size 284
+	Length of frame: 284
+	Seq #: 4
+	Source: 1
+	Destination: 0
+	Link: 1
+	Type: ACK
+this is our frame
+frame of size 107 about to be written to application
+DATALINK: Passing packet up to network. size:284
+PHYSICAL: Just received a frame... 61
+	Length of frame: 284
+	Seq #: 3
+	Source: 0
+	Destination: 1
+	Link: 1
+	Type: ACK
+DATALINK: We have accepted 1 frames
+DATALINK: Prev. window usage: 1 link 1
+DATALINK: New window usage: 0 link 1
+DATALINK: Restarting timer on link 1
+PHYSICAL: Just received a frame... 63
+	Length of frame: 284
+	Seq #: 5
+	Source: 0
+	Destination: 1
+	Link: 1
+	Type: DATA
+				DATA received, seq=5 on link 1
+ACK transmitted, seq=5
+DATALINK DOWN: frame size: 284 of type: 1
+PHYSICAL: Trying to transmit frame of size 284
+	Length of frame: 284
+	Seq #: 5
+	Source: 1
+	Destination: 0
+	Link: 1
+	Type: ACK
+this is our frame
+frame of size 162 about to be written to application
+DATALINK: Passing packet up to network. size:284
+DEBUG: Max size of message is 256
+APPLICATION: Send msg size 191 to node #0
+NETWORK: send packet on link 1 for node 0
+DATALINK DOWN: Old sequence # is 3
+ DATA transmitted, seq=4
+DATALINK DOWN: new sequence # is 4
+DATALINK DOWN: frame size: 284 of type: 0
+PHYSICAL: Trying to transmit frame of size 284
+	Length of frame: 284
+	Seq #: 4
+	Source: 1
+	Destination: 0
+	Link: 1
+	Type: DATA
+PHYSICAL: Just received a frame... 66
+	Length of frame: 284
+	Seq #: 0
+	Source: 0
+	Destination: 1
+	Link: 1
+	Type: DATA
+				DATA received, seq=0 on link 1
+ACK transmitted, seq=0
+DATALINK DOWN: frame size: 284 of type: 1
+PHYSICAL: Trying to transmit frame of size 284
+	Length of frame: 284
+	Seq #: 0
+	Source: 1
+	Destination: 0
+	Link: 1
+	Type: ACK
+this is our frame
+frame of size 236 about to be written to application
+DATALINK: Passing packet up to network. size:284
+PHYSICAL: Just received a frame... 67
+	Length of frame: 284
+	Seq #: 4
+	Source: 0
+	Destination: 1
+	Link: 1
+	Type: ACK
+DATALINK: We have accepted 1 frames
+DATALINK: Prev. window usage: 1 link 1
+DATALINK: New window usage: 0 link 1
+DATALINK: Restarting timer on link 1
+DEBUG: Max size of message is 256
+APPLICATION: Send msg size 172 to node #0
+NETWORK: send packet on link 1 for node 0
+DATALINK DOWN: Old sequence # is 4
+ DATA transmitted, seq=5
+DATALINK DOWN: new sequence # is 5
+DATALINK DOWN: frame size: 284 of type: 0
+PHYSICAL: Trying to transmit frame of size 284
+	Length of frame: 284
+	Seq #: 5
+	Source: 1
+	Destination: 0
+	Link: 1
+	Type: DATA
+PHYSICAL: Just received a frame... 69
+	Length of frame: 284
+	Seq #: 1
+	Source: 0
+	Destination: 1
+	Link: 1
+	Type: DATA
+				DATA received, seq=1 on link 1
+ACK transmitted, seq=1
+DATALINK DOWN: frame size: 284 of type: 1
+PHYSICAL: Trying to transmit frame of size 284
+	Length of frame: 284
+	Seq #: 1
+	Source: 1
+	Destination: 0
+	Link: 1
+	Type: ACK
+this is our frame
+frame of size 174 about to be written to application
+DATALINK: Passing packet up to network. size:284
+PHYSICAL: Just received a frame... 70
+	Length of frame: 284
+	Seq #: 5
+	Source: 0
+	Destination: 1
+	Link: 1
+	Type: ACK
+DATALINK: We have accepted 1 frames
+DATALINK: Prev. window usage: 1 link 1
+DATALINK: New window usage: 0 link 1
+DATALINK: Restarting timer on link 1
+DEBUG: Max size of message is 256
+APPLICATION: Send msg size 127 to node #0
+NETWORK: send packet on link 1 for node 0
+DATALINK DOWN: Old sequence # is 5
+ DATA transmitted, seq=0
+DATALINK DOWN: new sequence # is 0
+DATALINK DOWN: frame size: 284 of type: 0
+PHYSICAL: Trying to transmit frame of size 284
+	Length of frame: 284
+	Seq #: 0
+	Source: 1
+	Destination: 0
+	Link: 1
+	Type: DATA
+PHYSICAL: Just received a frame... 72
+	Length of frame: 284
+	Seq #: 2
+	Source: 0
+	Destination: 1
+	Link: 1
+	Type: DATA
+				DATA received, seq=2 on link 1
+ACK transmitted, seq=2
+DATALINK DOWN: frame size: 284 of type: 1
+PHYSICAL: Trying to transmit frame of size 284
+	Length of frame: 284
+	Seq #: 2
+	Source: 1
+	Destination: 0
+	Link: 1
+	Type: ACK
+this is our frame
+frame of size 145 about to be written to application
+DATALINK: Passing packet up to network. size:284
+PHYSICAL: Just received a frame... 74
+	Length of frame: 284
+	Seq #: 0
+	Source: 0
+	Destination: 1
+	Link: 1
+	Type: ACK
+DATALINK: We have accepted 1 frames
+DATALINK: Prev. window usage: 1 link 1
+DATALINK: New window usage: 0 link 1
+DATALINK: Restarting timer on link 1
+DEBUG: Max size of message is 256
+APPLICATION: Send msg size 232 to node #0
+NETWORK: send packet on link 1 for node 0
+DATALINK DOWN: Old sequence # is 0
+ DATA transmitted, seq=1
+DATALINK DOWN: new sequence # is 1
+DATALINK DOWN: frame size: 284 of type: 0
+PHYSICAL: Trying to transmit frame of size 284
+	Length of frame: 284
+	Seq #: 1
+	Source: 1
+	Destination: 0
+	Link: 1
+	Type: DATA
+PHYSICAL: Just received a frame... 75
+	Length of frame: 284
+	Seq #: 3
+	Source: 0
+	Destination: 1
+	Link: 1
+	Type: DATA
+				DATA received, seq=3 on link 1
+ACK transmitted, seq=3
+DATALINK DOWN: frame size: 284 of type: 1
+PHYSICAL: Trying to transmit frame of size 284
+	Length of frame: 284
+	Seq #: 3
+	Source: 1
+	Destination: 0
+	Link: 1
+	Type: ACK
+this is our frame
+frame of size 237 about to be written to application
+DATALINK: Passing packet up to network. size:284
+PHYSICAL: Just received a frame... 77
+	Length of frame: 284
+	Seq #: 1
+	Source: 0
+	Destination: 1
+	Link: 1
+	Type: ACK
+DATALINK: We have accepted 1 frames
+DATALINK: Prev. window usage: 1 link 1
+DATALINK: New window usage: 0 link 1
+DATALINK: Restarting timer on link 1
+PHYSICAL: Just received a frame... 78
+	Length of frame: 284
+	Seq #: 4
+	Source: 0
+	Destination: 1
+	Link: 1
+	Type: DATA
+				DATA received, seq=4 on link 1
+ACK transmitted, seq=4
+DATALINK DOWN: frame size: 284 of type: 1
+PHYSICAL: Trying to transmit frame of size 284
+	Length of frame: 284
+	Seq #: 4
+	Source: 1
+	Destination: 0
+	Link: 1
+	Type: ACK
+this is our frame
+frame of size 234 about to be written to application
+DATALINK: Passing packet up to network. size:284
+DEBUG: Max size of message is 256
+APPLICATION: Send msg size 229 to node #0
+NETWORK: send packet on link 1 for node 0
+DATALINK DOWN: Old sequence # is 1
+ DATA transmitted, seq=2
+DATALINK DOWN: new sequence # is 2
+DATALINK DOWN: frame size: 284 of type: 0
+PHYSICAL: Trying to transmit frame of size 284
+	Length of frame: 284
+	Seq #: 2
+	Source: 1
+	Destination: 0
+	Link: 1
+	Type: DATA
+PHYSICAL: Just received a frame... 80
+	Length of frame: 284
+	Seq #: 5
+	Source: 0
+	Destination: 1
+	Link: 1
+	Type: DATA
+				DATA received, seq=5 on link 1
+ACK transmitted, seq=5
+DATALINK DOWN: frame size: 284 of type: 1
+PHYSICAL: Trying to transmit frame of size 284
+	Length of frame: 284
+	Seq #: 5
+	Source: 1
+	Destination: 0
+	Link: 1
+	Type: ACK
+this is our frame
+frame of size 119 about to be written to application
+DATALINK: Passing packet up to network. size:284
+PHYSICAL: Just received a frame... 81
+	Length of frame: 284
+	Seq #: 2
+	Source: 0
+	Destination: 1
+	Link: 1
+	Type: ACK
+DATALINK: We have accepted 0 frames
+DATALINK: We have accepted 1 frames
+DATALINK: Prev. window usage: 1 link 1
+DATALINK: New window usage: 0 link 1
+DATALINK: Restarting timer on link 1
+DEBUG: Max size of message is 256
+APPLICATION: Send msg size 248 to node #0
+NETWORK: send packet on link 1 for node 0
+DATALINK DOWN: Old sequence # is 2
+ DATA transmitted, seq=3
+DATALINK DOWN: new sequence # is 3
+DATALINK DOWN: frame size: 284 of type: 0
+PHYSICAL: Trying to transmit frame of size 284
+	Length of frame: 284
+	Seq #: 3
+	Source: 1
+	Destination: 0
+	Link: 1
+	Type: DATA
+PHYSICAL: Just received a frame... 83
+	Length of frame: 284
+	Seq #: 3
+	Source: 0
+	Destination: 1
+	Link: 1
+	Type: ACK
+DATALINK: We have accepted 1 frames
+DATALINK: Prev. window usage: 1 link 1
+DATALINK: New window usage: 0 link 1
+DATALINK: Restarting timer on link 1
+PHYSICAL: Just received a frame... 84
+	Length of frame: 284
+	Seq #: 0
+	Source: 0
+	Destination: 1
+	Link: 1
+	Type: DATA
+				DATA received, seq=0 on link 1
+ACK transmitted, seq=0
+DATALINK DOWN: frame size: 284 of type: 1
+PHYSICAL: Trying to transmit frame of size 284
+	Length of frame: 284
+	Seq #: 0
+	Source: 1
+	Destination: 0
+	Link: 1
+	Type: ACK
+this is our frame
+frame of size 104 about to be written to application
+DATALINK: Passing packet up to network. size:284
+DEBUG: Max size of message is 256
+APPLICATION: Send msg size 251 to node #0
+NETWORK: send packet on link 1 for node 0
+DATALINK DOWN: Old sequence # is 3
+ DATA transmitted, seq=4
+DATALINK DOWN: new sequence # is 4
+DATALINK DOWN: frame size: 284 of type: 0
+PHYSICAL: Trying to transmit frame of size 284
+	Length of frame: 284
+	Seq #: 4
+	Source: 1
+	Destination: 0
+	Link: 1
+	Type: DATA
+PHYSICAL: Just received a frame... 86
+	Length of frame: 284
+	Seq #: 4
+	Source: 0
+	Destination: 1
+	Link: 1
+	Type: ACK
+DATALINK: We have accepted 1 frames
+DATALINK: Prev. window usage: 1 link 1
+DATALINK: New window usage: 0 link 1
+DATALINK: Restarting timer on link 1
+DEBUG: Max size of message is 256
+APPLICATION: Send msg size 162 to node #0
+NETWORK: send packet on link 1 for node 0
+DATALINK DOWN: Old sequence # is 4
+ DATA transmitted, seq=5
+DATALINK DOWN: new sequence # is 5
+DATALINK DOWN: frame size: 284 of type: 0
+PHYSICAL: Trying to transmit frame of size 284
+	Length of frame: 284
+	Seq #: 5
+	Source: 1
+	Destination: 0
+	Link: 1
+	Type: DATA
+PHYSICAL: Just received a frame... 87
+	Length of frame: 284
+	Seq #: 1
+	Source: 0
+	Destination: 1
+	Link: 1
+	Type: DATA
+				DATA received, seq=1 on link 1
+ACK transmitted, seq=1
+DATALINK DOWN: frame size: 284 of type: 1
+PHYSICAL: Trying to transmit frame of size 284
+	Length of frame: 284
+	Seq #: 1
+	Source: 1
+	Destination: 0
+	Link: 1
+	Type: ACK
+this is our frame
+frame of size 184 about to be written to application
+DATALINK: Passing packet up to network. size:284
+PHYSICAL: Just received a frame... 89
+	Length of frame: 284
+	Seq #: 5
+	Source: 0
+	Destination: 1
+	Link: 1
+	Type: ACK
+DATALINK: We have accepted 1 frames
+DATALINK: Prev. window usage: 1 link 1
+DATALINK: New window usage: 0 link 1
+DATALINK: Restarting timer on link 1
+DEBUG: Max size of message is 256
+APPLICATION: Send msg size 88 to node #0
+NETWORK: send packet on link 1 for node 0
+DATALINK DOWN: Old sequence # is 5
+ DATA transmitted, seq=0
+DATALINK DOWN: new sequence # is 0
+DATALINK DOWN: frame size: 284 of type: 0
+PHYSICAL: Trying to transmit frame of size 284
+	Length of frame: 284
+	Seq #: 0
+	Source: 1
+	Destination: 0
+	Link: 1
+	Type: DATA
+PHYSICAL: Just received a frame... 90
+	Length of frame: 284
+	Seq #: 2
+	Source: 0
+	Destination: 1
+	Link: 1
+	Type: DATA
+				DATA received, seq=2 on link 1
+ACK transmitted, seq=2
+DATALINK DOWN: frame size: 284 of type: 1
+PHYSICAL: Trying to transmit frame of size 284
+	Length of frame: 284
+	Seq #: 2
+	Source: 1
+	Destination: 0
+	Link: 1
+	Type: ACK
+this is our frame
+frame of size 140 about to be written to application
+DATALINK: Passing packet up to network. size:284
+PHYSICAL: Just received a frame... 91
+	Length of frame: 284
+	Seq #: 0
+	Source: 0
+	Destination: 1
+	Link: 1
+	Type: ACK
+DATALINK: We have accepted 1 frames
+DATALINK: Prev. window usage: 1 link 1
+DATALINK: New window usage: 0 link 1
+DATALINK: Restarting timer on link 1
+DEBUG: Max size of message is 256
+APPLICATION: Send msg size 121 to node #0
+NETWORK: send packet on link 1 for node 0
+DATALINK DOWN: Old sequence # is 0
+ DATA transmitted, seq=1
+DATALINK DOWN: new sequence # is 1
+DATALINK DOWN: frame size: 284 of type: 0
+PHYSICAL: Trying to transmit frame of size 284
+	Length of frame: 284
+	Seq #: 1
+	Source: 1
+	Destination: 0
+	Link: 1
+	Type: DATA
+PHYSICAL: Just received a frame... 93
+	Length of frame: 284
+	Seq #: 3
+	Source: 0
+	Destination: 1
+	Link: 1
+	Type: DATA
+				DATA received, seq=3 on link 1
+ACK transmitted, seq=3
+DATALINK DOWN: frame size: 284 of type: 1
+PHYSICAL: Trying to transmit frame of size 284
+	Length of frame: 284
+	Seq #: 3
+	Source: 1
+	Destination: 0
+	Link: 1
+	Type: ACK
+this is our frame
+frame of size 79 about to be written to application
+DATALINK: Passing packet up to network. size:284
+PHYSICAL: Just received a frame... 94
+	Length of frame: 284
+	Seq #: 1
+	Source: 0
+	Destination: 1
+	Link: 1
+	Type: ACK
+DATALINK: We have accepted 1 frames
+DATALINK: Prev. window usage: 1 link 1
+DATALINK: New window usage: 0 link 1
+DATALINK: Restarting timer on link 1
+DEBUG: Max size of message is 256
+APPLICATION: Send msg size 193 to node #0
+NETWORK: send packet on link 1 for node 0
+DATALINK DOWN: Old sequence # is 1
+ DATA transmitted, seq=2
+DATALINK DOWN: new sequence # is 2
+DATALINK DOWN: frame size: 284 of type: 0
+PHYSICAL: Trying to transmit frame of size 284
+	Length of frame: 284
+	Seq #: 2
+	Source: 1
+	Destination: 0
+	Link: 1
+	Type: DATA
+PHYSICAL: Just received a frame... 96
+	Length of frame: 284
+	Seq #: 4
+	Source: 0
+	Destination: 1
+	Link: 1
+	Type: DATA
+				DATA received, seq=4 on link 1
+ACK transmitted, seq=4
+DATALINK DOWN: frame size: 284 of type: 1
+PHYSICAL: Trying to transmit frame of size 284
+	Length of frame: 284
+	Seq #: 4
+	Source: 1
+	Destination: 0
+	Link: 1
+	Type: ACK
+this is our frame
+frame of size 128 about to be written to application
+DATALINK: Passing packet up to network. size:284
+PHYSICAL: Just received a frame... 97
+	Length of frame: 284
+	Seq #: 2
+	Source: 0
+	Destination: 1
+	Link: 1
+	Type: ACK
+DATALINK: We have accepted 0 frames
+DATALINK: We have accepted 1 frames
+DATALINK: Prev. window usage: 1 link 1
+DATALINK: New window usage: 0 link 1
+DATALINK: Restarting timer on link 1
+DEBUG: Max size of message is 256
+APPLICATION: Send msg size 100 to node #0
+NETWORK: send packet on link 1 for node 0
+DATALINK DOWN: Old sequence # is 2
+ DATA transmitted, seq=3
+DATALINK DOWN: new sequence # is 3
+DATALINK DOWN: frame size: 284 of type: 0
+PHYSICAL: Trying to transmit frame of size 284
+	Length of frame: 284
+	Seq #: 3
+	Source: 1
+	Destination: 0
+	Link: 1
+	Type: DATA
+PHYSICAL: Just received a frame... 99
+	Length of frame: 284
+	Seq #: 5
+	Source: 0
+	Destination: 1
+	Link: 1
+	Type: DATA
+				DATA received, seq=5 on link 1
+ACK transmitted, seq=5
+DATALINK DOWN: frame size: 284 of type: 1
+PHYSICAL: Trying to transmit frame of size 284
+	Length of frame: 284
+	Seq #: 5
+	Source: 1
+	Destination: 0
+	Link: 1
+	Type: ACK
+this is our frame
+frame of size 242 about to be written to application
+DATALINK: Passing packet up to network. size:284
+PHYSICAL: Just received a frame... 100
+	Length of frame: 284
+	Seq #: 3
+	Source: 0
+	Destination: 1
+	Link: 1
+	Type: ACK
+DATALINK: We have accepted 1 frames
+DATALINK: Prev. window usage: 1 link 1
+DATALINK: New window usage: 0 link 1
+DATALINK: Restarting timer on link 1
+DEBUG: Max size of message is 256
+APPLICATION: Send msg size 143 to node #0
+NETWORK: send packet on link 1 for node 0
+DATALINK DOWN: Old sequence # is 3
+ DATA transmitted, seq=4
+DATALINK DOWN: new sequence # is 4
+DATALINK DOWN: frame size: 284 of type: 0
+PHYSICAL: Trying to transmit frame of size 284
+	Length of frame: 284
+	Seq #: 4
+	Source: 1
+	Destination: 0
+	Link: 1
+	Type: DATA
+PHYSICAL: Just received a frame... 102
+	Length of frame: 284
+	Seq #: 0
+	Source: 0
+	Destination: 1
+	Link: 1
+	Type: DATA
+				DATA received, seq=0 on link 1
+ACK transmitted, seq=0
+DATALINK DOWN: frame size: 284 of type: 1
+PHYSICAL: Trying to transmit frame of size 284
+	Length of frame: 284
+	Seq #: 0
+	Source: 1
+	Destination: 0
+	Link: 1
+	Type: ACK
+this is our frame
+frame of size 64 about to be written to application
+DATALINK: Passing packet up to network. size:284
+PHYSICAL: Just received a frame... 103
+	Length of frame: 284
+	Seq #: 4
+	Source: 0
+	Destination: 1
+	Link: 1
+	Type: ACK
+DATALINK: We have accepted 1 frames
+DATALINK: Prev. window usage: 1 link 1
+DATALINK: New window usage: 0 link 1
+DATALINK: Restarting timer on link 1
+DEBUG: Max size of message is 256
+APPLICATION: Send msg size 66 to node #0
+NETWORK: send packet on link 1 for node 0
+DATALINK DOWN: Old sequence # is 4
+ DATA transmitted, seq=5
+DATALINK DOWN: new sequence # is 5
+DATALINK DOWN: frame size: 284 of type: 0
+PHYSICAL: Trying to transmit frame of size 284
+	Length of frame: 284
+	Seq #: 5
+	Source: 1
+	Destination: 0
+	Link: 1
+	Type: DATA
+PHYSICAL: Just received a frame... 104
+	Length of frame: 284
+	Seq #: 1
+	Source: 0
+	Destination: 1
+	Link: 1
+	Type: DATA
+				DATA received, seq=1 on link 1
+ACK transmitted, seq=1
+DATALINK DOWN: frame size: 284 of type: 1
+PHYSICAL: Trying to transmit frame of size 284
+	Length of frame: 284
+	Seq #: 1
+	Source: 1
+	Destination: 0
+	Link: 1
+	Type: ACK
+this is our frame
+frame of size 199 about to be written to application
+DATALINK: Passing packet up to network. size:284
+PHYSICAL: Just received a frame... 106
+	Length of frame: 284
+	Seq #: 5
+	Source: 0
+	Destination: 1
+	Link: 1
+	Type: ACK
+DATALINK: We have accepted 1 frames
+DATALINK: Prev. window usage: 1 link 1
+DATALINK: New window usage: 0 link 1
+DATALINK: Restarting timer on link 1
+DEBUG: Max size of message is 256
+APPLICATION: Send msg size 220 to node #0
+NETWORK: send packet on link 1 for node 0
+DATALINK DOWN: Old sequence # is 5
+ DATA transmitted, seq=0
+DATALINK DOWN: new sequence # is 0
+DATALINK DOWN: frame size: 284 of type: 0
+PHYSICAL: Trying to transmit frame of size 284
+	Length of frame: 284
+	Seq #: 0
+	Source: 1
+	Destination: 0
+	Link: 1
+	Type: DATA
+PHYSICAL: Just received a frame... 107
+	Length of frame: 284
+	Seq #: 2
+	Source: 0
+	Destination: 1
+	Link: 1
+	Type: DATA
+				DATA received, seq=2 on link 1
+ACK transmitted, seq=2
+DATALINK DOWN: frame size: 284 of type: 1
+PHYSICAL: Trying to transmit frame of size 284
+	Length of frame: 284
+	Seq #: 2
+	Source: 1
+	Destination: 0
+	Link: 1
+	Type: ACK
+this is our frame
+frame of size 122 about to be written to application
+DATALINK: Passing packet up to network. size:284
+PHYSICAL: Just received a frame... 109
+	Length of frame: 284
+	Seq #: 0
+	Source: 0
+	Destination: 1
+	Link: 1
+	Type: ACK
+DATALINK: We have accepted 1 frames
+DATALINK: Prev. window usage: 1 link 1
+DATALINK: New window usage: 0 link 1
+DATALINK: Restarting timer on link 1
+DEBUG: Max size of message is 256
+APPLICATION: Send msg size 126 to node #0
+NETWORK: send packet on link 1 for node 0
+DATALINK DOWN: Old sequence # is 0
+ DATA transmitted, seq=1
+DATALINK DOWN: new sequence # is 1
+DATALINK DOWN: frame size: 284 of type: 0
+PHYSICAL: Trying to transmit frame of size 284
+	Length of frame: 284
+	Seq #: 1
+	Source: 1
+	Destination: 0
+	Link: 1
+	Type: DATA
+PHYSICAL: Just received a frame... 110
+	Length of frame: 284
+	Seq #: 3
+	Source: 0
+	Destination: 1
+	Link: 1
+	Type: DATA
+				DATA received, seq=3 on link 1
+ACK transmitted, seq=3
+DATALINK DOWN: frame size: 284 of type: 1
+PHYSICAL: Trying to transmit frame of size 284
+	Length of frame: 284
+	Seq #: 3
+	Source: 1
+	Destination: 0
+	Link: 1
+	Type: ACK
+this is our frame
+frame of size 206 about to be written to application
+DATALINK: Passing packet up to network. size:284
+PHYSICAL: Just received a frame... 111
+	Length of frame: 284
+	Seq #: 1
+	Source: 0
+	Destination: 1
+	Link: 1
+	Type: ACK
+DATALINK: We have accepted 1 frames
+DATALINK: Prev. window usage: 1 link 1
+DATALINK: New window usage: 0 link 1
+DATALINK: Restarting timer on link 1
+DEBUG: Max size of message is 256
+APPLICATION: Send msg size 113 to node #0
+NETWORK: send packet on link 1 for node 0
+DATALINK DOWN: Old sequence # is 1
+ DATA transmitted, seq=2
+DATALINK DOWN: new sequence # is 2
+DATALINK DOWN: frame size: 284 of type: 0
+PHYSICAL: Trying to transmit frame of size 284
+	Length of frame: 284
+	Seq #: 2
+	Source: 1
+	Destination: 0
+	Link: 1
+	Type: DATA
+PHYSICAL: Just received a frame... 113
+	Length of frame: 284
+	Seq #: 4
+	Source: 0
+	Destination: 1
+	Link: 1
+	Type: DATA
+				DATA received, seq=4 on link 1
+ACK transmitted, seq=4
+DATALINK DOWN: frame size: 284 of type: 1
+PHYSICAL: Trying to transmit frame of size 284
+	Length of frame: 284
+	Seq #: 4
+	Source: 1
+	Destination: 0
+	Link: 1
+	Type: ACK
+this is our frame
+frame of size 96 about to be written to application
+DATALINK: Passing packet up to network. size:284
+PHYSICAL: Just received a frame... 114
+	Length of frame: 284
+	Seq #: 2
+	Source: 0
+	Destination: 1
+	Link: 1
+	Type: ACK
+DATALINK: We have accepted 0 frames
+DATALINK: We have accepted 1 frames
+DATALINK: Prev. window usage: 1 link 1
+DATALINK: New window usage: 0 link 1
+DATALINK: Restarting timer on link 1
+DEBUG: Max size of message is 256
+APPLICATION: Send msg size 56 to node #0
+NETWORK: send packet on link 1 for node 0
+DATALINK DOWN: Old sequence # is 2
+ DATA transmitted, seq=3
+DATALINK DOWN: new sequence # is 3
+DATALINK DOWN: frame size: 284 of type: 0
+PHYSICAL: Trying to transmit frame of size 284
+	Length of frame: 284
+	Seq #: 3
+	Source: 1
+	Destination: 0
+	Link: 1
+	Type: DATA
+PHYSICAL: Just received a frame... 116
+	Length of frame: 284
+	Seq #: 3
+	Source: 0
+	Destination: 1
+	Link: 1
+	Type: ACK
+DATALINK: We have accepted 1 frames
+DATALINK: Prev. window usage: 1 link 1
+DATALINK: New window usage: 0 link 1
+DATALINK: Restarting timer on link 1
+DEBUG: Max size of message is 256
+APPLICATION: Send msg size 154 to node #0
+NETWORK: send packet on link 1 for node 0
+DATALINK DOWN: Old sequence # is 3
+ DATA transmitted, seq=4
+DATALINK DOWN: new sequence # is 4
+DATALINK DOWN: frame size: 284 of type: 0
+PHYSICAL: Trying to transmit frame of size 284
+	Length of frame: 284
+	Seq #: 4
+	Source: 1
+	Destination: 0
+	Link: 1
+	Type: DATA
+PHYSICAL: Just received a frame... 117
+	Length of frame: 284
+	Seq #: 5
+	Source: 0
+	Destination: 1
+	Link: 1
+	Type: DATA
+				DATA received, seq=5 on link 1
+ACK transmitted, seq=5
+DATALINK DOWN: frame size: 284 of type: 1
+PHYSICAL: Trying to transmit frame of size 284
+	Length of frame: 284
+	Seq #: 5
+	Source: 1
+	Destination: 0
+	Link: 1
+	Type: ACK
+this is our frame
+frame of size 151 about to be written to application
+DATALINK: Passing packet up to network. size:284
+PHYSICAL: Just received a frame... 119
+	Length of frame: 284
+	Seq #: 4
+	Source: 0
+	Destination: 1
+	Link: 1
+	Type: ACK
+DATALINK: We have accepted 1 frames
+DATALINK: Prev. window usage: 1 link 1
+DATALINK: New window usage: 0 link 1
+DATALINK: Restarting timer on link 1
+DEBUG: Max size of message is 256
+APPLICATION: Send msg size 159 to node #0
+NETWORK: send packet on link 1 for node 0
+DATALINK DOWN: Old sequence # is 4
+ DATA transmitted, seq=5
+DATALINK DOWN: new sequence # is 5
+DATALINK DOWN: frame size: 284 of type: 0
+PHYSICAL: Trying to transmit frame of size 284
+	Length of frame: 284
+	Seq #: 5
+	Source: 1
+	Destination: 0
+	Link: 1
+	Type: DATA
+PHYSICAL: Just received a frame... 121
+	Length of frame: 284
+	Seq #: 0
+	Source: 0
+	Destination: 1
+	Link: 1
+	Type: DATA
+				DATA received, seq=0 on link 1
+ACK transmitted, seq=0
+DATALINK DOWN: frame size: 284 of type: 1
+PHYSICAL: Trying to transmit frame of size 284
+	Length of frame: 284
+	Seq #: 0
+	Source: 1
+	Destination: 0
+	Link: 1
+	Type: ACK
+this is our frame
+frame of size 113 about to be written to application
+DATALINK: Passing packet up to network. size:284
+PHYSICAL: Just received a frame... 122
+	Length of frame: 284
+	Seq #: 5
+	Source: 0
+	Destination: 1
+	Link: 1
+	Type: ACK
+DATALINK: We have accepted 1 frames
+DATALINK: Prev. window usage: 1 link 1
+DATALINK: New window usage: 0 link 1
+DATALINK: Restarting timer on link 1
+DEBUG: Max size of message is 256
+APPLICATION: Send msg size 256 to node #0
+NETWORK: send packet on link 1 for node 0
+DATALINK DOWN: Old sequence # is 5
+ DATA transmitted, seq=0
+DATALINK DOWN: new sequence # is 0
+DATALINK DOWN: frame size: 284 of type: 0
+PHYSICAL: Trying to transmit frame of size 284
+	Length of frame: 284
+	Seq #: 0
+	Source: 1
+	Destination: 0
+	Link: 1
+	Type: DATA
