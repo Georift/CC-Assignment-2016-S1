@@ -552,10 +552,18 @@ void reboot_node(CnetEvent ev, CnetTimerID timer, CnetData data)
 
     CHECK(CNET_set_debug_string( EV_DEBUG0, "State"));
 
-    windowSize = MAX_WINDOW / 2;
+    if (nodeinfo.nodenumber == 0 || nodeinfo.nodenumber == 1)
+    {
+        windowSize = MAX_WINDOW;
+    }
+    else
+    {
+        windowSize = MAX_WINDOW / 2;
+    }
+
 
     int ii;
-    for (ii = 0; ii < (MAX_WINDOW / 2); ii++)
+    for (ii = 0; ii < windowSize; ii++)
     {
         windowUsed[ii] = 0;
     }
